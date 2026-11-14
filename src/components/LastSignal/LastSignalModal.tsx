@@ -4,14 +4,13 @@ import { ProvenanceBadge } from '../UI/ProvenanceBadge';
 import { 
   Radio, 
   X, 
-  AlertTriangle, 
   Clock, 
   WifiOff, 
-  Sun, 
   Layers, 
   HelpCircle,
   Activity,
-  Maximize2
+  ExternalLink,
+  ShieldCheck
 } from 'lucide-react';
 
 interface LastSignalModalProps {
@@ -165,7 +164,9 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
                 {data.powerStatusDetail}
               </p>
               <div className="mt-2">
-                <ProvenanceBadge type="UNVERIFIED_ENGINEERING_ESTIMATE" />
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-mono tracking-wider bg-emerald-950/70 text-emerald-400 border border-emerald-500/30">
+                  QUALITATIVE NASA ENGINEERING RECORD
+                </span>
               </div>
             </div>
           </div>
@@ -295,28 +296,58 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
           </div>
         </div>
 
-        {/* Telemetry Log Terminal Readout */}
-        <div className="rounded-xl overflow-hidden border border-space-border bg-black font-mono">
-          <div className="px-4 py-2 bg-zinc-900 border-b border-space-border flex items-center justify-between text-xs text-zinc-400">
+        {/* Verified Event Log */}
+        <div className="rounded-xl overflow-hidden border border-space-border bg-space-card/90">
+          <div className="px-4 py-3 bg-zinc-900/90 border-b border-space-border flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-              <span>TERMINAL TELEMETRY LOG // DSN RECEPTION RECORD</span>
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span className="text-xs font-mono font-bold text-white tracking-wide">
+                VERIFIED EVENT LOG // NASA PRIMARY SOURCE CHRONOLOGY
+              </span>
             </div>
-            <span className="text-[10px] text-zinc-500">SOL 5111 PASS 1</span>
+            <span className="text-[10px] font-mono text-zinc-400">
+              SOL 5111 TO RETIREMENT
+            </span>
           </div>
-          <div className="p-4 space-y-2 text-xs">
-            {data.telemetryStream.map((log, idx) => (
-              <div key={idx} className="flex items-start gap-3">
-                <span className="text-zinc-600 shrink-0">{log.timestampUtc.split('T')[1].replace('Z', '')}</span>
-                <span className={`shrink-0 px-1 py-0.2 rounded text-[10px] ${
-                  log.level === 'CRIT' ? 'bg-rose-950 text-rose-400' :
-                  log.level === 'WARN' ? 'bg-amber-950 text-amber-400' : 'bg-cyan-950 text-cyan-400'
-                }`}>
-                  [{log.source}]
-                </span>
-                <span className={log.level === 'CRIT' ? 'text-rose-300 font-semibold' : 'text-zinc-300'}>
-                  {log.message}
-                </span>
+
+          <div className="p-4 divide-y divide-space-border/60">
+            {data.verifiedEventLog.map((event, idx) => (
+              <div key={idx} className="py-3.5 first:pt-0 last:pb-0 flex flex-col md:flex-row md:items-start justify-between gap-3 text-xs">
+                <div className="space-y-1.5 flex-1">
+                  <div className="flex flex-wrap items-center gap-2 font-mono">
+                    <span className="px-2 py-0.5 rounded text-[10px] bg-zinc-800 text-cyan-300 font-bold">
+                      {event.date}
+                    </span>
+                    {event.timeUtc && (
+                      <span className="text-[11px] text-zinc-400">
+                        {event.timeUtc}
+                      </span>
+                    )}
+                    {event.sol !== undefined && (
+                      <span className="px-1.5 py-0.5 rounded text-[10px] bg-amber-950 text-amber-400 border border-amber-500/30">
+                        SOL {event.sol}
+                      </span>
+                    )}
+                  </div>
+                  <h4 className="text-sm font-semibold text-zinc-100 font-display">
+                    {event.title}
+                  </h4>
+                  <p className="text-xs text-zinc-300 leading-relaxed font-sans">
+                    {event.description}
+                  </p>
+                </div>
+
+                <div className="shrink-0 pt-1 md:self-start">
+                  <a
+                    href={event.sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-space-border text-[11px] font-mono text-cyan-400 hover:text-cyan-300 transition-colors"
+                  >
+                    <span>{event.sourceLabel}</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
               </div>
             ))}
           </div>

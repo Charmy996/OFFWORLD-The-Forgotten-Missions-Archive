@@ -40,6 +40,16 @@ export interface MissionChapter {
   provenance: ProvenanceType;
 }
 
+export interface VerifiedEvent {
+  date: string;
+  timeUtc?: string;
+  sol?: number;
+  title: string;
+  description: string;
+  sourceUrl: string;
+  sourceLabel: string;
+}
+
 export interface LastSignalMetadata {
   atmosphericTauValue: number;
   atmosphericTauNominal: number;
@@ -67,12 +77,7 @@ export interface LastSignalMetadata {
     imageUrl: string;
     provenance: ProvenanceType;
   };
-  telemetryStream: Array<{
-    timestampUtc: string;
-    source: string;
-    message: string;
-    level: 'INFO' | 'WARN' | 'CRIT';
-  }>;
+  verifiedEventLog: VerifiedEvent[];
   poeticMythClarification: {
     popularLegend: string;
     verifiedFact: string;

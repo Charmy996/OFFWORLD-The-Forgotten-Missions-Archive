@@ -240,8 +240,8 @@ export const OPPORTUNITY_CHAPTERS: MissionChapter[] = [
 export const OPPORTUNITY_LAST_SIGNAL: LastSignalMetadata = {
   atmosphericTauValue: 10.8,
   atmosphericTauNominal: 0.5,
-  powerStatusLabel: 'Critical Power Collapse',
-  powerStatusDetail: 'Solar arrays obscured by planet-encircling dust storm; voltage collapsed below autonomous low-power fault threshold.',
+  powerStatusLabel: 'Critical Power Collapse (Low-Power Fault Mode)',
+  powerStatusDetail: 'Solar arrays obscured by planet-encircling dust storm; autonomous low-power fault mode triggered as solar power collapsed below operating threshold.',
   acquisitionTimeMars: '2018-06-10 ~09:30 PDT (16:30 UTC / Sol 5111)',
   carrierLossTimeEarth: '2018-06-10 10:19 PDT (17:19 UTC)',
   dsnStation: 'DSN Station 14 (Goldstone Deep Space Communications Complex, 70m Antenna)',
@@ -264,17 +264,66 @@ export const OPPORTUNITY_LAST_SIGNAL: LastSignalMetadata = {
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA22930.jpg',
     provenance: 'NASA_PHOTOJOURNAL_PIA'
   },
-  telemetryStream: [
-    { timestampUtc: '2018-06-10T17:18:22Z', source: 'DSN_STATION_14', message: 'Carrier acquisition verified at 8400.12 MHz. Subcarrier SNR margin: 3.8 dB.', level: 'INFO' },
-    { timestampUtc: '2018-06-10T17:18:48Z', source: 'MER_B_POWER_BUS', message: 'CRITICAL: Solar array generation below 25 Wh threshold. Bus voltage decaying.', level: 'WARN' },
-    { timestampUtc: '2018-06-10T17:19:04Z', source: 'MER_B_PANCAM', message: 'Downlinking frame PIA22929... Line 340 of 1024 complete. Buffer drained.', level: 'INFO' },
-    { timestampUtc: '2018-06-10T17:19:11Z', source: 'MER_B_FLIGHT_SYS', message: 'AUTOMATIC FAULT: Low-power hibernation trip. Disabling non-essential X-band transponder.', level: 'CRIT' },
-    { timestampUtc: '2018-06-10T17:19:15Z', source: 'DSN_STATION_14', message: 'CARRIER LOST. Subcarrier demodulator lock dropped. Frame sync lost.', level: 'CRIT' },
-    { timestampUtc: '2018-06-10T17:19:30Z', source: 'DSN_STATION_14', message: 'Sweep-and-listen initiated on 8.4 GHz. No signal detected.', level: 'WARN' }
+  verifiedEventLog: [
+    {
+      date: '2018-06-10',
+      timeUtc: '16:30 UTC (~09:30 a.m. PDT)',
+      sol: 5111,
+      title: 'Pancam Solar Exposure Acquisition (PIA22929 & PIA22930)',
+      description: 'Pancam pointed toward the obscured Sun in Perseverance Valley to gauge atmospheric opacity. Transmission of the full frame was cut off mid-downlink (PIA22929), followed by successful reception of smaller atmospheric tau thumbnails (PIA22930).',
+      sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA22929',
+      sourceLabel: 'NASA JPL Photojournal PIA22929'
+    },
+    {
+      date: '2018-06-10',
+      sol: 5111,
+      title: 'Record Atmospheric Opacity (Tau > 10.8)',
+      description: 'Atmospheric opacity exceeded 10.8—the highest level ever recorded on Mars—caused by a planet-encircling global dust storm that blotted out the Sun.',
+      sourceUrl: 'https://www.jpl.nasa.gov/news/opportunity-hunkers-down-during-martian-dust-storm',
+      sourceLabel: 'NASA JPL Dust Storm Status Bulletin'
+    },
+    {
+      date: '2018-06-10',
+      sol: 5111,
+      title: 'Autonomous Low-Power Fault Mode Trip',
+      description: 'As dust choked incoming sunlight, solar power generation collapsed below operating thresholds, autonomously tripping low-power fault mode and disabling non-essential systems.',
+      sourceUrl: 'https://mars.nasa.gov/mer/mission/status_opportunityAll.html',
+      sourceLabel: 'NASA Mars Exploration Rover Mission Status'
+    },
+    {
+      date: '2018-06-10',
+      timeUtc: '17:19 UTC (10:19 a.m. PDT)',
+      sol: 5111,
+      title: 'Final Downlink & Carrier Reception on Earth',
+      description: 'NASA Deep Space Network Goldstone Station 14 logged the final telemetry transmission packets and carrier lock from Opportunity before permanent loss of signal.',
+      sourceUrl: 'https://mars.nasa.gov/mer/mission/status_opportunityAll.html',
+      sourceLabel: 'NASA JPL Mission Status Update'
+    },
+    {
+      date: '2018-06 to 2019-02',
+      title: '8-Month DSN Recovery Campaign',
+      description: 'JPL engineers transmitted over 1,000 sweep-and-beep recovery commands via Deep Space Network antennas in attempts to restore contact as seasonal winds cleared dust.',
+      sourceUrl: 'https://www.jpl.nasa.gov/news/nasas-opportunity-rover-mission-on-mars-comes-to-end',
+      sourceLabel: 'NASA JPL Mission Retrospective'
+    },
+    {
+      date: '2019-02-12',
+      title: 'Final Wake-Up Transmission Beamed to Mars',
+      description: 'Flight controllers beamed Billie Holiday\'s recording of "I\'ll Be Seeing You" to Perseverance Valley via the Goldstone DSN dish as the final contact attempt. No reply was detected.',
+      sourceUrl: 'https://www.jpl.nasa.gov/news/nasas-opportunity-rover-mission-on-mars-comes-to-end',
+      sourceLabel: 'NASA JPL Press Briefing Record'
+    },
+    {
+      date: '2019-02-13',
+      title: 'Official Mission Conclusion Declaration',
+      description: 'NASA Headquarters and the Jet Propulsion Laboratory officially declared Opportunity\'s mission complete after 15 years and 5,111 sols of continuous exploration on Mars.',
+      sourceUrl: 'https://www.jpl.nasa.gov/news/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end',
+      sourceLabel: 'NASA Headquarters Official Release'
+    }
   ],
   poeticMythClarification: {
     popularLegend: '"My battery is low and it\'s getting dark."',
-    verifiedFact: 'Opportunity never spoke or transmitted English words. The rover transmitted binary telemetry packets indicating high atmospheric opacity (tau > 10.8), decaying bus voltage, and an incomplete Pancam exposure. The poetic sentence was composed on Twitter by science reporter Jacob Margolis (@JacobMargolis) on June 13, 2018, summarizing what JPL project scientists John Callas and Bill Nelson told him.',
+    verifiedFact: 'Opportunity never spoke or transmitted English words. The rover transmitted binary telemetry packets indicating high atmospheric opacity (tau > 10.8), power collapse, and an incomplete Pancam exposure. The poetic sentence was composed on Twitter by science reporter Jacob Margolis (@JacobMargolis) on June 13, 2018, summarizing what JPL project scientists John Callas and Bill Nelson explained to him.',
     originAuthor: 'Jacob Margolis (Science Journalist, KPCC / LAist)'
   }
 };
