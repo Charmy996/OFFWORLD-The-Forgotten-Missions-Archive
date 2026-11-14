@@ -7,9 +7,10 @@ export const OPPORTUNITY_MISSION = {
   tagline: 'The 15-Year Marathon of Meridiani',
   targetBody: 'Mars',
   launchDate: '2003-07-08T03:18:00Z',
-  landingDate: '2004-01-25T05:05:00Z',
-  lastSignalDate: '2018-06-10T17:19:00Z',
-  missionDeclaredEnded: '2019-02-13T19:00:00Z',
+  landingDate: '2004-01-25', // UTC; Jan 24, 2004 in Pacific time
+  landingDatePacific: '2004-01-24',
+  lastSignalDate: '2018-06-10',
+  missionDeclaredEnded: '2019-02-13',
   plannedLifespanSols: 90,
   actualLifespanSols: 5111,
   totalTraverseMeters: 45161.0,
@@ -177,62 +178,82 @@ export const OPPORTUNITY_ROUTE_COORDINATES: Array<[number, number]> = [
   [-5.2200, -2.2400]  // Sol 5111 - Perseverance Valley (Final Rest)
 ];
 
+// Source links reused across chapters and the Last Signal panel (all NASA/JPL unless labeled).
+const SRC = {
+  missionPage: { label: 'NASA Opportunity mission page', url: 'https://science.nasa.gov/mission/mer-opportunity/' },
+  endRelease: { label: 'JPL release, Feb 13, 2019', url: 'https://www.jpl.nasa.gov/news/nasas-opportunity-rover-mission-on-mars-comes-to-end/' },
+  statusReport: { label: 'JPL dust storm status report, 2018', url: 'https://www.jpl.nasa.gov/news/opportunity-hunkers-down-during-dust-storm/' },
+  lightIsEnergy: { label: 'NASA graphic: On Mars, Light Is Energy', url: 'https://science.nasa.gov/resource/on-mars-light-is-energy/' },
+  pia22929: { label: 'PIA22929', url: 'https://www.jpl.nasa.gov/images/pia22929-opportunitys-last-message/' },
+  pia22930: { label: 'PIA22930', url: 'https://science.nasa.gov/photojournal/last-images-opportunity-took/' },
+  pia19158: { label: 'PIA19158', url: 'https://www.jpl.nasa.gov/images/pia19158-opportunitys-marathon-journey/' },
+  pia06739: { label: 'PIA06739', url: 'https://www.jpl.nasa.gov/images/pia06739-opportunity-catches-its-shadow-on-sol-180/' },
+  pia16703: { label: 'PIA16703', url: 'https://science.nasa.gov/photojournal/matijevic-hill-panorama-for-rovers-ninth-anniversary/' },
+  pia18885: { label: 'PIA18885', url: 'https://science.nasa.gov/photojournal/clues-to-wet-history-in-texture-of-a-martian-rock/' },
+  pia22909: { label: 'PIA22909', url: 'https://www.jpl.nasa.gov/images/pia22909-opportunity-legacy-pan-true-color/' },
+  waterRelease: { label: 'NASA release of Mar 2, 2004 (republished by SpaceNews)', url: 'https://spacenews.com/?p=40434' },
+  perseveranceBlog: { label: 'NASA blog, Oct 12, 2026', url: 'https://science.nasa.gov/blogs/perseverance-mars-rover/2026/10/12/nasas-perseverance-sets-off-world-record-for-total-distance-driven/' },
+  newsweek: { label: 'Newsweek (non-NASA)', url: 'https://www.newsweek.com/nasa-mars-opportunity-rover-new-york-daily-news-jet-propulsion-laboratory-1334615' },
+  phys: { label: 'JPL release as republished by Phys.org (non-NASA site)', url: 'https://phys.org/news/2018-08-martian-opportunity-rover.html' }
+};
+
+// Chapter text follows the verified project dossier script "Ninety Sols".
 export const OPPORTUNITY_CHAPTERS: MissionChapter[] = [
   {
     id: 'act-1',
     title: 'ACT I: The Hole-in-One at Meridiani',
     solRange: 'Sol 1 – 90',
     dateRange: 'January – April 2004',
-    subtitle: 'A ninety-sol warranty and an ancient sea of blueberries',
+    subtitle: 'A ninety-sol warranty and rocks soaked in water',
     narrativeText: [
-      'On January 25, 2004, a cocoon of airbags bounced across the smooth, dark plains of Meridiani Planum. When the petal shields unfolded, cameras looked out not at a featureless horizon, but directly at layered bedrock inside the 22-meter Eagle Crater.',
-      'Opportunity had scored an interplanetary hole-in-one. Within weeks, its microscopic imager revealed thousands of sub-centimeter gray spherules weathered out of the cliffs—the famous "blueberries". Formed from hematite inside water-soaked sediments, they delivered unambiguous proof that liquid water once bathed the Martian surface.',
-      'Engineers celebrated the completion of the 90-sol primary mission warranty. None could imagine the machine would continue rolling for fifteen Earth years.'
+      'On Mars, a day is called a sol. Opportunity was built to last ninety of them, and to drive about a kilometer.',
+      'It landed on January 24, 2004, Pacific time (January 25 in UTC). Wrapped in airbags, the lander bounced at least 26 times across Meridiani Planum and rolled to a stop inside a small crater called Eagle, about nine miles from where it was aimed. NASA\'s own pages call it a hole-in-one.',
+      'In the walls of Eagle lay layered rock, studded with tiny gray spheres the team nicknamed blueberries. They were iron-rich, and they had formed in rock soaked with groundwater. On March 2, 2004, NASA told the world that liquid water once flowed through this place.'
     ],
-    keyHighlight: 'Definitive confirmation of ancient liquid water on Mars within 60 days of landing.',
+    keyHighlight: 'On Mar 2, 2004, the science team announced that rocks at the landing site were once soaked in liquid water.',
     telemetryMetrics: {
-      distanceKm: 0.6,
       solsPassed: 90
     },
+    sources: [SRC.missionPage, SRC.pia18885, SRC.waterRelease],
     provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR'
   },
   {
     id: 'act-2',
     title: 'ACT II: The Great Marathon',
-    solRange: 'Sol 91 – 5000',
-    dateRange: 'May 2004 – May 2018',
-    subtitle: 'Wheel failures, sand traps, and forty-five kilometers across an alien world',
+    solRange: 'Sol 91 – 5,083',
+    dateRange: 'April 2004 – May 2018',
+    subtitle: 'Past the warranty, and the long road to Endeavour',
     narrativeText: [
-      'Leaving Eagle Crater, Opportunity plunged into the desert. It survived 5 weeks trapped to its axles in Purgatory Dune, navigated towering promontories at Victoria Crater, and overcame permanent steering actuator failures.',
-      'When its internal flash memory degraded into recurring "amnesia" cycles, JPL engineers remotely reprogrammed the rover to operate entirely within dynamic RAM, transmitting telemetry each afternoon before sunset.',
-      'In August 2011, after a 21-kilometer sprint across open dunes, Opportunity reached the rim of the 22-kilometer Endeavour Crater. There, at Cape York, it scraped open "Homestake"—a bright vein of pure gypsum formed in neutral-pH liquid water, proving an ancient habitat where microbial life could have thrived.',
-      'On Sol 3968, Opportunity crossed the official 42.195 km mark, completing humanity’s first off-world marathon.'
+      'On sol 180, the rover caught its own shadow: twice its promised life. Then the trouble came. In 2005 a front wheel lost its steering, a stuck heater threatened its power, and a sand ripple held the rover for six weeks. In 2007 a dust storm cut its power to 128 watt-hours. Each time, the team on Earth found a way, and Opportunity rolled on.',
+      'In 2011 it reached Endeavour Crater, thirteen miles across, where orbiters had spotted clay minerals. There, NASA\'s team found signs of water that was not strongly acidic.',
+      'On March 24, 2015, eleven years and two months after landing, the odometer passed 26.2 miles: the first human enterprise to drive a marathon on another world, with Marathon Valley just ahead.'
     ],
-    keyHighlight: '45.16 km total traverse—establishing the enduring off-world driving record.',
+    keyHighlight: 'On Mar 24, 2015 (sol 3,968), Opportunity became the first human enterprise to drive a marathon on another world.',
     telemetryMetrics: {
-      distanceKm: 45.16,
-      solsPassed: 5000
+      solsPassed: 5083
     },
+    sources: [SRC.pia06739, SRC.missionPage, SRC.pia16703, SRC.pia19158],
     provenance: 'AUTHENTIC_TELEMETRY_JPL_RMC'
   },
   {
     id: 'act-3',
     title: 'ACT III: The Last Signal',
-    solRange: 'Sol 5000 – 5111',
-    dateRange: 'May – June 2018',
-    subtitle: 'The dark sky over Perseverance Valley and the transmission that stopped',
+    solRange: 'Sol 5,084 – 5,111',
+    dateRange: 'May 13 – June 10, 2018',
+    subtitle: 'The dark sky over Perseverance Valley and the data that stopped',
     narrativeText: [
-      'By May 2018, Opportunity had driven into Perseverance Valley, a shallow depression slicing down the western rim of Endeavour Crater.',
-      'On May 30, orbital cameras detected an atmospheric dust storm forming directly over Meridiani. Within days, it grew into a historic planet-encircling tempest. Atmospheric opacity (tau) climbed past 10.8—the highest level ever recorded on Mars. At midday, the darkness was absolute.',
-      'On Sol 5111 (June 10, 2018), Opportunity pointed its camera at the pitch-black sky to measure opacity. Mid-transmission, the rover entered a low-power fault mode as its solar power collapsed. Deep Space Network Station 14 at Goldstone received its final corrupted data packet at 17:19 UTC.',
-      'For eight months, over a thousand recovery commands were beamed into the dark. On February 12, 2019, JPL beamed Billie Holiday\'s "I\'ll Be Seeing You". No answer returned.'
+      'On May 30, 2018, an orbiter spotted a dust storm. By June 8 it covered more than 7 million square miles, and by June 12, 14 million, a quarter of the planet. Atmospheric opacity, called tau, normally sits near 0.5 at Opportunity\'s site. On June 10 it was about 10.8 (one NASA graphic prints 10.5). The rover had 21 watt-hours of power, the lowest measured on Opportunity at that time (some press accounts say 22).',
+      'It sent engineering data and one last picture: a noisy, partial frame of a dark sky, cut off before it finished. Opportunity never sent a sentence. It sent measurements.',
+      'For eight months, JPL listened and sent more than a thousand commands. On February 12, 2019, the last went out through the 70-meter dish at Goldstone. The next day, NASA declared the mission complete. Project manager John Callas closed his remarks with "Farewell, Opportunity, and well done."',
+      'Opportunity drove 28.06 miles, sent home more than 217,000 images and 15 color panoramas, and lasted sixty times longer than planned. On October 11, 2026, Perseverance passed its total distance, and NASA said so plainly. But the first marathon on another world still belongs to Opportunity. It was built for ninety sols. Its last contact came on sol 5,111.'
     ],
-    keyHighlight: 'Final downlink received June 10, 2018. Official mission retirement declared February 13, 2019.',
+    keyHighlight: 'Last contact June 10, 2018 (sol 5,111). NASA declared the mission complete on Feb 13, 2019.',
     telemetryMetrics: {
-      distanceKm: 45.161,
+      distanceKm: 45.16,
       solsPassed: 5111,
-      dustFactor: 'Tau > 10.8'
+      dustFactor: 'Tau about 10.8 (one NASA graphic: 10.5)'
     },
+    sources: [SRC.statusReport, SRC.lightIsEnergy, SRC.pia22930, SRC.pia22929, SRC.endRelease, SRC.perseveranceBlog, SRC.pia22909],
     provenance: 'NASA_PHOTOJOURNAL_PIA'
   }
 ];
@@ -240,90 +261,140 @@ export const OPPORTUNITY_CHAPTERS: MissionChapter[] = [
 export const OPPORTUNITY_LAST_SIGNAL: LastSignalMetadata = {
   atmosphericTauValue: 10.8,
   atmosphericTauNominal: 0.5,
-  powerStatusLabel: 'Critical Power Collapse (Low-Power Fault Mode)',
-  powerStatusDetail: 'Solar arrays obscured by planet-encircling dust storm; autonomous low-power fault mode triggered as solar power collapsed below operating threshold.',
-  acquisitionTimeMars: '2018-06-10 ~09:30 PDT (16:30 UTC / Sol 5111)',
-  carrierLossTimeEarth: '2018-06-10 10:19 PDT (17:19 UTC)',
-  dsnStation: 'DSN Station 14 (Goldstone Deep Space Communications Complex, 70m Antenna)',
-  frequencyBand: 'X-Band Downlink (8.4 GHz)',
+  atmosphericTauNote: 'About 10.8 per JPL; one NASA graphic prints 10.5.',
+  powerWattHours: 21,
+  powerNote: 'NASA graphic: 21 Wh. Some press accounts say 22.',
+  powerStatusLabel: '21 Wh on June 10',
+  powerStatusDetail: 'Power had dropped significantly by June 6, forcing minimal operations. On June 10 the rover had 21 watt-hours, the lowest measured on Opportunity at that time.',
+  teamAssumption: 'Team assumption (June 12): engineers assumed the batteries had dipped below 24 volts and the rover was in low-power fault, with everything off except a mission clock. This was an inference after the silence, not a received message.',
+  temperatureLabel: 'About −29 °C',
+  temperatureNote: 'Rover temperature in the June 10 transmission (about −20 °F).',
+  acquisitionTimes: 'Jun 10, 2018 (sol 5,111): about 9:30 and 9:33 a.m. PDT',
+  mroRelayTime: 'Relayed by Mars Reconnaissance Orbiter around 9:45 a.m. PDT',
+  earthReceiptTime: 'Received on Earth around 10:05 a.m. PDT',
   finalFullFrame: {
     id: 'PIA22929',
     title: "Opportunity's Last Message",
-    instrument: 'Pancam (Panoramic Camera - Left Eye with Solar Filter)',
-    status: 'Incomplete / Abruptly Interrupted Transmission',
-    description: 'This is the actual final full-frame image data received from Opportunity. Pointed at the obscured Sun, the frame is filled with white camera noise caused by the extreme darkness. The black bar across the bottom represents scanlines that were never received because the rover lost power mid-downlink.',
+    instrument: 'Pancam',
+    status: 'Partial frame: transmission stopped before the image finished',
+    description: 'A noisy, partial dark-sky frame: the last data Opportunity sent. Taken about 9:30 a.m. PDT and relayed by MRO around 9:45 a.m. PDT. The transmission stopped before the image finished.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA22929.jpg',
     provenance: 'NASA_PHOTOJOURNAL_PIA'
   },
   subsequentThumbnails: {
     id: 'PIA22930',
-    title: 'Final Atmospheric Tau Thumbnails',
-    instrument: 'Pancam (Stereo Left & Right Solar Filter Thumbnails)',
-    status: 'Successfully Received Compressed Thumbnails',
-    description: 'Captured a few minutes after PIA22929 to estimate atmospheric opacity. These low-resolution thumbnails successfully reached Earth, revealing the Sun as a tiny ghostly smudge through the dust storm. The corresponding full-frame exposures were never transmitted.',
+    title: 'Last Images Opportunity Took',
+    instrument: 'Pancam',
+    status: 'Two thumbnails received',
+    description: 'Two thumbnails with a faint dot of Sun, taken about 9:33 a.m. PDT and used to estimate a tau of about 10.8. The full-frame versions were never transmitted.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA22930.jpg',
     provenance: 'NASA_PHOTOJOURNAL_PIA'
   },
   verifiedEventLog: [
     {
+      date: '2018-05-30',
+      title: 'Storm first detected',
+      description: 'Mars Reconnaissance Orbiter first detects the dust storm.',
+      sourceUrl: SRC.statusReport.url,
+      sourceLabel: SRC.statusReport.label
+    },
+    {
+      date: '2018-06-06',
+      title: 'Minimal operations',
+      description: 'Power has dropped significantly; the rover shifts to minimal operations.',
+      sourceUrl: SRC.statusReport.url,
+      sourceLabel: SRC.statusReport.label
+    },
+    {
       date: '2018-06-10',
-      timeUtc: '16:30 UTC (~09:30 a.m. PDT)',
+      timePdt: 'about 9:30 and 9:33 a.m. PDT',
       sol: 5111,
-      title: 'Pancam Solar Exposure Acquisition (PIA22929 & PIA22930)',
-      description: 'Pancam pointed toward the obscured Sun in Perseverance Valley to gauge atmospheric opacity. Transmission of the full frame was cut off mid-downlink (PIA22929), followed by successful reception of smaller atmospheric tau thumbnails (PIA22930).',
-      sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA22929',
-      sourceLabel: 'NASA JPL Photojournal PIA22929'
+      title: 'Last images taken',
+      description: 'Pancam takes its last images. The partial dark-sky frame (PIA22929) was relayed by MRO around 9:45 a.m. PDT and received on Earth around 10:05 a.m. PDT; the transmission stopped before the image finished. Two thumbnails (PIA22930) were used to estimate tau.',
+      sourceUrl: SRC.pia22929.url,
+      sourceLabel: 'NASA PIA22929'
     },
     {
       date: '2018-06-10',
       sol: 5111,
-      title: 'Record Atmospheric Opacity (Tau > 10.8)',
-      description: 'Atmospheric opacity exceeded 10.8—the highest level ever recorded on Mars—caused by a planet-encircling global dust storm that blotted out the Sun.',
-      sourceUrl: 'https://www.jpl.nasa.gov/news/opportunity-hunkers-down-during-martian-dust-storm',
-      sourceLabel: 'NASA JPL Dust Storm Status Bulletin'
+      title: 'Engineering readings in the last transmission',
+      description: 'Tau about 10.8 (one NASA graphic prints 10.5); 21 watt-hours of power (some press accounts say 22); rover temperature about −29 °C.',
+      sourceUrl: SRC.statusReport.url,
+      sourceLabel: SRC.statusReport.label
     },
     {
-      date: '2018-06-10',
-      sol: 5111,
-      title: 'Autonomous Low-Power Fault Mode Trip',
-      description: 'As dust choked incoming sunlight, solar power generation collapsed below operating thresholds, autonomously tripping low-power fault mode and disabling non-essential systems.',
-      sourceUrl: 'https://mars.nasa.gov/mer/mission/status_opportunityAll.html',
-      sourceLabel: 'NASA Mars Exploration Rover Mission Status'
+      date: '2018-06-12',
+      title: 'Team assumption after silence',
+      description: 'Engineers assumed the batteries had dipped below 24 volts and the rover was in low-power fault, with everything off except a mission clock. This was an assumption, not a received message. On the same day the storm covered 14 million square miles, a quarter of the planet.',
+      sourceUrl: SRC.statusReport.url,
+      sourceLabel: SRC.statusReport.label
     },
     {
-      date: '2018-06-10',
-      timeUtc: '17:19 UTC (10:19 a.m. PDT)',
-      sol: 5111,
-      title: 'Final Downlink & Carrier Reception on Earth',
-      description: 'NASA Deep Space Network Goldstone Station 14 logged the final telemetry transmission packets and carrier lock from Opportunity before permanent loss of signal.',
-      sourceUrl: 'https://mars.nasa.gov/mer/mission/status_opportunityAll.html',
-      sourceLabel: 'NASA JPL Mission Status Update'
+      date: '2018-06-19',
+      title: 'Planet-encircling storm',
+      description: 'The storm is officially a planet-encircling (global) dust event.',
+      sourceUrl: SRC.statusReport.url,
+      sourceLabel: SRC.statusReport.label
     },
     {
-      date: '2018-06 to 2019-02',
-      title: '8-Month DSN Recovery Campaign',
-      description: 'JPL engineers transmitted over 1,000 sweep-and-beep recovery commands via Deep Space Network antennas in attempts to restore contact as seasonal winds cleared dust.',
-      sourceUrl: 'https://www.jpl.nasa.gov/news/nasas-opportunity-rover-mission-on-mars-comes-to-end',
-      sourceLabel: 'NASA JPL Mission Retrospective'
+      date: '2018-07-23',
+      title: 'Storm begins to decay',
+      description: 'As of July 23, orbiters show more dust falling out than being raised.',
+      sourceUrl: SRC.statusReport.url,
+      sourceLabel: SRC.statusReport.label
     },
     {
       date: '2019-02-12',
-      title: 'Final Wake-Up Transmission Beamed to Mars',
-      description: 'Flight controllers beamed Billie Holiday\'s recording of "I\'ll Be Seeing You" to Perseverance Valley via the Goldstone DSN dish as the final contact attempt. No reply was detected.',
-      sourceUrl: 'https://www.jpl.nasa.gov/news/nasas-opportunity-rover-mission-on-mars-comes-to-end',
-      sourceLabel: 'NASA JPL Press Briefing Record'
+      title: 'Last recovery commands',
+      description: 'The last recovery commands go out through the 70-meter Goldstone antenna, ending an eight-month effort of more than 1,000 commands.',
+      sourceUrl: SRC.endRelease.url,
+      sourceLabel: SRC.endRelease.label
     },
     {
       date: '2019-02-13',
-      title: 'Official Mission Conclusion Declaration',
-      description: 'NASA Headquarters and the Jet Propulsion Laboratory officially declared Opportunity\'s mission complete after 15 years and 5,111 sols of continuous exploration on Mars.',
-      sourceUrl: 'https://www.jpl.nasa.gov/news/nasas-record-setting-opportunity-rover-mission-on-mars-comes-to-end',
-      sourceLabel: 'NASA Headquarters Official Release'
+      title: 'Mission declared complete',
+      description: 'NASA declares the mission complete; total odometry 28.06 miles (45.16 km).',
+      sourceUrl: SRC.endRelease.url,
+      sourceLabel: SRC.endRelease.label
     }
   ],
-  poeticMythClarification: {
-    popularLegend: '"My battery is low and it\'s getting dark."',
-    verifiedFact: 'Opportunity never spoke or transmitted English words. The rover transmitted binary telemetry packets indicating high atmospheric opacity (tau > 10.8), power collapse, and an incomplete Pancam exposure. The poetic sentence was composed on Twitter by science reporter Jacob Margolis (@JacobMargolis) on June 13, 2018, summarizing what JPL project scientists John Callas and Bill Nelson explained to him.',
-    originAuthor: 'Jacob Margolis (Science Journalist, KPCC / LAist)'
-  }
+  factCheck: [
+    {
+      claim: '"Opportunity\'s last words were \'My battery is low and it\'s getting dark.\'"',
+      verdict: 'MYTH',
+      record: 'A reporter\'s "poetic translation" of the data, not a transmission. NASA\'s own record of the last data is a noisy partial image plus engineering readings.',
+      sources: [SRC.newsweek, SRC.pia22929]
+    },
+    {
+      claim: '"NASA\'s final transmission to Opportunity was \'I\'ll Be Seeing You.\'"',
+      verdict: 'NOT CONFIRMED BY NASA',
+      record: 'NASA\'s release says final commands went out Feb 12 and does not mention the song. Press accounts differ on whether it was played in the control room or uplinked, so it is not presented here as a transmission.',
+      sources: [SRC.endRelease]
+    },
+    {
+      claim: '"Dust piled up on the panels and killed the rover."',
+      verdict: 'UNCONFIRMED',
+      record: 'Before the storm cleared, JPL said it was unlikely dust accumulation would prove the root cause of the silence. NASA\'s final release attributes the end to the storm but names no confirmed failure.',
+      sources: [SRC.phys, SRC.endRelease]
+    },
+    {
+      claim: '"Opportunity still holds the off-world driving record."',
+      verdict: 'OUT OF DATE',
+      record: 'Perseverance passed Opportunity\'s 28.06 miles on Oct 11, 2026, reaching 28.10 miles (45.22 km). Opportunity still holds the "first marathon" title.',
+      sources: [SRC.perseveranceBlog]
+    },
+    {
+      claim: '"Opportunity found life on Mars."',
+      verdict: 'MYTH',
+      record: 'NASA says the findings imply conditions may have been habitable and that Mars may once have sustained microbial life. No life was found.',
+      sources: [SRC.endRelease, SRC.missionPage]
+    },
+    {
+      claim: '"It landed on Jan 24." / "It landed on Jan 25."',
+      verdict: 'BOTH CORRECT',
+      record: 'Jan 24, 2004 in Pacific time; Jan 25 in UTC.',
+      sources: [SRC.missionPage, SRC.endRelease]
+    }
+  ],
+  lastCommandsNote: 'On February 12, 2019, the last recovery commands went out through the 70-meter Goldstone antenna, ending an eight-month effort of more than 1,000 commands. NASA declared the mission complete on February 13, 2019, with total odometry of 28.06 miles (45.16 km). Press accounts differ on whether Billie Holiday\'s "I\'ll Be Seeing You" was played in the control room or uplinked; NASA\'s release does not mention it.'
 };

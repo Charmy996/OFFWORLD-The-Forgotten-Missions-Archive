@@ -93,15 +93,26 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
       {/* Modal Scrollable Body */}
       <div className="p-6 overflow-y-auto max-h-[calc(90vh-80px)] space-y-6">
         
-        {/* Banner: Reconciled Sequential Timestamps */}
-        <div className="p-4 rounded-xl bg-space-card/80 border border-space-border grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Banner: Sequential Timestamps (PDT, from the verified dossier) */}
+        <div className="p-4 rounded-xl bg-space-card/80 border border-space-border grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="flex items-start gap-3">
             <Clock className="w-4 h-4 text-cyan-400 mt-1 shrink-0" />
             <div>
-              <div className="text-[11px] font-mono text-zinc-400">STEP 1: MARS ACQUISITION TIME</div>
-              <div className="text-sm font-bold font-mono text-cyan-300">{data.acquisitionTimeMars}</div>
+              <div className="text-[11px] font-mono text-zinc-400">STEP 1: IMAGES TAKEN ON MARS</div>
+              <div className="text-sm font-bold font-mono text-cyan-300">{data.acquisitionTimes}</div>
               <div className="text-xs text-zinc-400 mt-0.5">
-                Pancam exposures acquired toward the obscured Sun from Perseverance Valley rim.
+                Pancam exposures of the dark sky from Perseverance Valley.
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3">
+            <Radio className="w-4 h-4 text-amber-400 mt-1 shrink-0" />
+            <div>
+              <div className="text-[11px] font-mono text-zinc-400">STEP 2: ORBITER RELAY</div>
+              <div className="text-sm font-bold font-mono text-amber-300">{data.mroRelayTime}</div>
+              <div className="text-xs text-zinc-400 mt-0.5">
+                The transmission stopped before the image finished.
               </div>
             </div>
           </div>
@@ -109,10 +120,10 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
           <div className="flex items-start gap-3">
             <WifiOff className="w-4 h-4 text-rose-400 mt-1 shrink-0" />
             <div>
-              <div className="text-[11px] font-mono text-zinc-400">STEP 2: EARTH CARRIER LOSS TIME</div>
-              <div className="text-sm font-bold font-mono text-rose-400">{data.carrierLossTimeEarth}</div>
+              <div className="text-[11px] font-mono text-zinc-400">STEP 3: RECEIVED ON EARTH</div>
+              <div className="text-sm font-bold font-mono text-rose-400">{data.earthReceiptTime}</div>
               <div className="text-xs text-zinc-400 mt-0.5">
-                DSN Station 14 (Goldstone, California) received final telemetry before permanent carrier loss.
+                Last data received from Opportunity (June 10, 2018, sol 5,111).
               </div>
             </div>
           </div>
@@ -125,11 +136,11 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
             <div>
               <div className="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
                 <span>ATMOSPHERIC OPACITY (TAU)</span>
-                <span className="text-rose-400 font-bold">RECORD HIGH</span>
+                <span className="text-rose-400 font-bold">JUN 10, 2018</span>
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="text-3xl font-display font-extrabold text-rose-400">
-                  {data.atmosphericTauValue}+
+                  ~{data.atmosphericTauValue}
                 </span>
                 <span className="text-xs text-zinc-500 font-mono">
                   (Nominal: ~{data.atmosphericTauNominal})
@@ -141,7 +152,7 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
                 <div className="bg-rose-500 h-2 rounded-full w-full animate-pulse" />
               </div>
               <span className="text-[10px] font-mono text-zinc-500 mt-1 block">
-                Sunlight blocked completely; midday darkness absolute.
+                {data.atmosphericTauNote}
               </span>
             </div>
           </div>
@@ -151,7 +162,7 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
             <div>
               <div className="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
                 <span>SOLAR POWER GENERATION</span>
-                <span className="text-rose-400 font-bold">FAULT TRIP</span>
+                <span className="text-rose-400 font-bold">LOWEST AT THE TIME</span>
               </div>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-display font-bold text-amber-400">
@@ -165,26 +176,26 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
               </p>
               <div className="mt-2">
                 <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-mono tracking-wider bg-emerald-950/70 text-emerald-400 border border-emerald-500/30">
-                  QUALITATIVE NASA ENGINEERING RECORD
+                  {data.powerNote}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Deep Space Network Station */}
+          {/* Rover Temperature */}
           <div className="p-4 rounded-xl bg-zinc-900/70 border border-space-border flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between text-xs font-mono text-zinc-400 mb-2">
-                <span>DSN GROUND STATION</span>
-                <span className="text-cyan-400 font-bold">{data.frequencyBand}</span>
+                <span>ROVER TEMPERATURE</span>
+                <span className="text-cyan-400 font-bold">JUN 10, 2018</span>
               </div>
-              <div className="text-sm font-mono font-semibold text-zinc-200">
-                {data.dsnStation}
+              <div className="text-2xl font-display font-bold text-cyan-300">
+                {data.temperatureLabel}
               </div>
             </div>
             <div className="mt-3 flex items-center gap-1.5 text-xs text-zinc-400 font-mono">
               <Activity className="w-3.5 h-3.5 text-emerald-400" />
-              <span>70m Parabolic Reflector</span>
+              <span>{data.temperatureNote}</span>
             </div>
           </div>
         </div>
@@ -195,10 +206,10 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
             <div>
               <h3 className="text-base font-display font-bold text-white flex items-center gap-2">
                 <Layers className="w-4 h-4 text-cyan-400" />
-                <span>The Final Photographic Evidence: Full Frame vs. Thumbnails</span>
+                <span>The Final Photographic Evidence: Partial Frame vs. Thumbnails</span>
               </h3>
               <p className="text-xs text-zinc-400 font-mono mt-0.5">
-                Comparing the cut-off full-frame image with the subsequent thumbnail downlink
+                Comparing the cut-off partial frame with the two thumbnails
               </p>
             </div>
           </div>
@@ -220,7 +231,7 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
                     className="w-full h-full object-contain"
                   />
                   <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-rose-400 border border-rose-500/40">
-                    BLACK BAR: TRANSMISSION CUT OFF HERE
+                    PARTIAL FRAME: CUT OFF BEFORE IT FINISHED
                   </div>
                 </div>
                 <p className="text-xs text-zinc-300 leading-relaxed">
@@ -244,11 +255,11 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
                 <div className="relative rounded-lg overflow-hidden border border-zinc-800 bg-black aspect-video mb-3 flex items-center justify-center">
                   <img 
                     src={data.subsequentThumbnails.imageUrl} 
-                    alt="PIA22930: Opportunity Atmospheric Tau Thumbnails"
+                    alt="PIA22930: Last Images Opportunity Took"
                     className="w-full h-full object-contain"
                   />
                   <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/80 text-[10px] font-mono text-cyan-400 border border-cyan-500/40">
-                    THUMBNAILS COMPLETED SUCCESSFULLY
+                    TWO THUMBNAILS RECEIVED
                   </div>
                 </div>
                 <p className="text-xs text-zinc-300 leading-relaxed">
@@ -262,37 +273,39 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
           </div>
         </div>
 
-        {/* Myth vs. Reality Fact Check Card */}
+        {/* Myths vs. Facts Fact-Check Panel */}
         <div className="p-5 rounded-xl bg-amber-950/20 border border-amber-500/30">
           <div className="flex items-center gap-2 text-amber-400 font-mono font-bold text-sm mb-3">
             <HelpCircle className="w-4 h-4" />
-            <span>HISTORICAL FACT-CHECK // THE "LAST WORDS" CONTROVERSY</span>
+            <span>FACT-CHECK // MYTHS VS. FACTS</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-3 rounded-lg bg-zinc-900/60 border border-zinc-800">
-              <span className="text-[10px] font-mono text-rose-400 font-bold uppercase block mb-1">
-                POPULAR INTERNET MYTH
-              </span>
-              <p className="text-sm font-serif italic text-zinc-300">
-                {data.poeticMythClarification.popularLegend}
-              </p>
-              <span className="text-[10px] font-mono text-zinc-500 mt-2 block">
-                Often misattributed as a spoken sentence or autonomous rover farewell transmission.
-              </span>
-            </div>
-
-            <div className="p-3 rounded-lg bg-zinc-900/60 border border-zinc-800">
-              <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase block mb-1">
-                NASA VERIFIED REALITY
-              </span>
-              <p className="text-xs text-zinc-300 leading-relaxed">
-                {data.poeticMythClarification.verifiedFact}
-              </p>
-              <div className="mt-2 text-[10px] font-mono text-zinc-400">
-                Phrase Author: <span className="text-cyan-300">{data.poeticMythClarification.originAuthor}</span>
+          <div className="space-y-3">
+            {data.factCheck.map((row, idx) => (
+              <div key={idx} className="p-3 rounded-lg bg-zinc-900/60 border border-zinc-800">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+                  <p className="text-sm font-serif italic text-zinc-300">{row.claim}</p>
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded border border-amber-500/40 text-amber-300 bg-amber-950/60">
+                    {row.verdict}
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-300 leading-relaxed">{row.record}</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {row.sources.map((src) => (
+                    <a
+                      key={src.url}
+                      href={src.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 text-[10px] font-mono text-cyan-400 hover:text-cyan-300"
+                    >
+                      <span>{src.label}</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -306,7 +319,7 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
               </span>
             </div>
             <span className="text-[10px] font-mono text-zinc-400">
-              SOL 5111 TO RETIREMENT
+              MAY 2018 TO FEB 2019
             </span>
           </div>
 
@@ -318,9 +331,9 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
                     <span className="px-2 py-0.5 rounded text-[10px] bg-zinc-800 text-cyan-300 font-bold">
                       {event.date}
                     </span>
-                    {event.timeUtc && (
+                    {event.timePdt && (
                       <span className="text-[11px] text-zinc-400">
-                        {event.timeUtc}
+                        {event.timePdt}
                       </span>
                     )}
                     {event.sol !== undefined && (
@@ -353,10 +366,10 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
           </div>
         </div>
 
-        {/* Postscript: The Silent Monument */}
+        {/* Postscript: The last recovery attempt */}
         <div className="p-4 rounded-xl bg-space-card/60 border border-space-border text-xs text-zinc-400 leading-relaxed font-mono">
-          <span className="text-zinc-300 font-bold block mb-1">THE FINAL FAREWELL TRANSMISSION:</span>
-          Over the following eight months, NASA engineers sent over 1,000 sweep-and-beep revival commands via DSN antennas. On the evening of February 12, 2019, JPL beamed Billie Holiday's <em>"I'll Be Seeing You"</em> to Perseverance Valley. On February 13, 2019, NASA officially declared the mission concluded. Opportunity remains intact on the western slope of Endeavour Crater.
+          <span className="text-zinc-300 font-bold block mb-1">THE LAST RECOVERY ATTEMPT:</span>
+          {data.lastCommandsNote}
         </div>
 
       </div>

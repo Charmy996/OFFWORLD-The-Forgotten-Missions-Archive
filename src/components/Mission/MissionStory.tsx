@@ -125,16 +125,36 @@ export const MissionStory: React.FC<MissionStoryProps> = ({
         {/* Chapter Telemetry Metrics */}
         {chapter.telemetryMetrics && (
           <div className="grid grid-cols-2 gap-2 text-xs font-mono bg-black/40 p-3 rounded-lg border border-space-border">
-            <div>
-              <span className="text-zinc-500 text-[10px] block">CUMULATIVE TRAVERSE</span>
-              <span className="text-cyan-300 font-bold">{chapter.telemetryMetrics.distanceKm} km</span>
-            </div>
+            {chapter.telemetryMetrics.distanceKm !== undefined && (
+              <div>
+                <span className="text-zinc-500 text-[10px] block">TOTAL TRAVERSE AT END OF MISSION</span>
+                <span className="text-cyan-300 font-bold">{chapter.telemetryMetrics.distanceKm} km</span>
+              </div>
+            )}
             <div>
               <span className="text-zinc-500 text-[10px] block">MARTIAN DAYS SURVIVED</span>
               <span className="text-amber-300 font-bold">{chapter.telemetryMetrics.solsPassed} Sols</span>
             </div>
           </div>
         )}
+
+        {/* Chapter Sources */}
+        <div className="text-[10px] font-mono text-zinc-500">
+          <span className="block mb-1 uppercase tracking-wider">Sources</span>
+          <div className="flex flex-wrap gap-x-3 gap-y-1">
+            {chapter.sources.map((src) => (
+              <a
+                key={src.url}
+                href={src.url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-cyan-400 hover:text-cyan-300 underline-offset-2 hover:underline"
+              >
+                {src.label}
+              </a>
+            ))}
+          </div>
+        </div>
 
         {/* Actions for this chapter */}
         <div className="flex flex-col gap-2 pt-2 border-t border-space-border">

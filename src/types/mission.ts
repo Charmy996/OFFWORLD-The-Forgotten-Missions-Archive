@@ -24,6 +24,11 @@ export interface TraverseWaypoint {
   category: 'landing' | 'discovery' | 'hazard' | 'milestone' | 'final';
 }
 
+export interface SourceLink {
+  label: string;
+  url: string;
+}
+
 export interface MissionChapter {
   id: string;
   title: string;
@@ -33,16 +38,17 @@ export interface MissionChapter {
   narrativeText: string[];
   keyHighlight: string;
   telemetryMetrics?: {
-    distanceKm: number;
+    distanceKm?: number;
     solsPassed: number;
     dustFactor?: string;
   };
+  sources: SourceLink[];
   provenance: ProvenanceType;
 }
 
 export interface VerifiedEvent {
   date: string;
-  timeUtc?: string;
+  timePdt?: string;
   sol?: number;
   title: string;
   description: string;
@@ -50,15 +56,34 @@ export interface VerifiedEvent {
   sourceLabel: string;
 }
 
+export type FactCheckVerdict =
+  | 'MYTH'
+  | 'NOT CONFIRMED BY NASA'
+  | 'UNCONFIRMED'
+  | 'OUT OF DATE'
+  | 'BOTH CORRECT';
+
+export interface FactCheckRow {
+  claim: string;
+  verdict: FactCheckVerdict;
+  record: string;
+  sources: SourceLink[];
+}
+
 export interface LastSignalMetadata {
   atmosphericTauValue: number;
   atmosphericTauNominal: number;
+  atmosphericTauNote: string;
+  powerWattHours: number;
+  powerNote: string;
   powerStatusLabel: string;
   powerStatusDetail: string;
-  acquisitionTimeMars: string;
-  carrierLossTimeEarth: string;
-  dsnStation: string;
-  frequencyBand: string;
+  teamAssumption: string;
+  temperatureLabel: string;
+  temperatureNote: string;
+  acquisitionTimes: string;
+  mroRelayTime: string;
+  earthReceiptTime: string;
   finalFullFrame: {
     id: 'PIA22929';
     title: string;
@@ -78,9 +103,6 @@ export interface LastSignalMetadata {
     provenance: ProvenanceType;
   };
   verifiedEventLog: VerifiedEvent[];
-  poeticMythClarification: {
-    popularLegend: string;
-    verifiedFact: string;
-    originAuthor: string;
-  };
+  factCheck: FactCheckRow[];
+  lastCommandsNote: string;
 }
