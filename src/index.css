@@ -1,0 +1,104 @@
+@import "ol/ol.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+/* Custom scrollbars for mission logs */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090a0f;
+}
+::-webkit-scrollbar-thumb {
+  background: #272a38;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;
+}
+
+/* Dialog & Top Layer styles conforming to modern-web-guidance */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgba(3, 4, 7, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+/* Scanline / CRT overlay effect */
+.scanlines {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+}
+
+/* Radar pulse animation */
+@keyframes ping-slow {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.4); opacity: 0.2; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.animate-ping-slow {
+  animation: ping-slow 2.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Map canvas full fill */
+.ol-viewport {
+  background-color: #07080b !important;
+}
+
+/* OpenLayers zoom controls theme */
+.ol-zoom {
+  top: auto !important;
+  bottom: 2rem !important;
+  left: 2rem !important;
+  background: rgba(18, 20, 28, 0.85) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  border-radius: 0.5rem !important;
+  padding: 4px !important;
+}
+
+.ol-zoom button {
+  background: transparent !important;
+  color: #38bdf8 !important;
+  font-family: monospace !important;
+  font-size: 1.1rem !important;
+  margin: 2px !important;
+  border-radius: 0.25rem !important;
+  transition: all 0.2s ease;
+}
+
+.ol-zoom button:hover {
+  background: rgba(56, 189, 248, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.ol-attribution {
+  bottom: 0.5rem !important;
+  right: 0.5rem !important;
+  background: rgba(10, 11, 16, 0.85) !important;
+  border-radius: 4px !important;
+  border: 1px solid #272a38 !important;
+  color: #94a3b8 !important;
+  font-family: monospace !important;
+  font-size: 0.65rem !important;
+}
