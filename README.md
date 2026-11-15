@@ -49,6 +49,14 @@ All photographic assets have been audited against NASA Jet Propulsion Laboratory
 - NASA Fact-Check Matrix: side-by-side verification debunking popular online myths regarding Opportunity, Spirit, InSight, and Surveyor 3.
 - Clarification that science journalist Jacob Margolis coined the poetic summary on Twitter on June 13, 2018, while Opportunity transmitted raw binary engineering packets.
 
+### 6. Interactive Rover Story Chronicles & Narration Audio Engine
+- **3-Act Narrative Structure:** Deep documentary-grade story arcs (Act I: Landing & First Footprints, Act II: The Odyssey & Science, Act III: The Silent Farewell / Monument) covering 15 robotic surface explorers across Mars, Moon, Venus, and Titan.
+- **Documentary Voice Narration:** Integrated Web Speech API narration synthesizer configured with measured cadence (pitch: 0.82, speed: 0.88), real-time word tracking, speech multiplier, and animated sound waveform.
+- **Dynamic Thematic Modes:** Live switchable styling themes (`Amber CRT`, `Cyan Telemetry`, `Stealth Dark`, `Archival Gold`) adjusting glowing borders, telemetry scanlines, and buttons.
+- **Hardware Failure Anatomy:** Deep engineering diagnostic dossiers detailing historical component failures and remote recovery workarounds (Spirit's jammed wheel motor, Opportunity's steering actuator jam and flash memory wear-out, Curiosity's punctured aluminum wheels, Venera 13's 89-atm pressure limits).
+- **Acoustic Telemetry Synthesizer:** Real-time Web Audio API frequency generator producing authentic carrier waves, downlink pings, and deep space ambient drone beds.
+- **Mission Switcher & Citation Exporter:** One-click explorer switching across planetary bodies with automated academic citation copying.
+
 ### 6. Audio Architecture and Compliance
 - Procedural Web Audio API synthesizer producing authentic ambient Martian wind textures and sub-bass carrier drones.
 - 100% royalty-free and copyright compliant. Commercial recordings (including Billie Holiday's master recording of "I'll Be Seeing You") are strictly excluded.
