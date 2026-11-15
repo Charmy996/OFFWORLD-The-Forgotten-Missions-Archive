@@ -372,6 +372,16 @@ export const LastSignalModal: React.FC<LastSignalModalProps> = ({ isOpen, onClos
           {data.lastCommandsNote}
         </div>
 
+        {/* Modal Footer */}
+        <div className="pt-2 border-t border-space-border flex justify-end">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-mono text-zinc-200 transition-colors focus-visible:ring-2 focus-visible:ring-rose-400"
+          >
+            RETURN TO ARCHIVE
+          </button>
+        </div>
+
       </div>
     </dialog>
   );

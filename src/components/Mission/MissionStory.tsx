@@ -16,11 +16,13 @@ import {
 interface MissionStoryProps {
   onJumpToSite: (coords: [number, number], zoom: number) => void;
   onOpenLastSignal: () => void;
+  onClose?: () => void;
 }
 
 export const MissionStory: React.FC<MissionStoryProps> = ({ 
   onJumpToSite, 
-  onOpenLastSignal 
+  onOpenLastSignal,
+  onClose
 }) => {
   const [activeChapterIndex, setActiveChapterIndex] = useState<number>(0);
   const chapter = OPPORTUNITY_CHAPTERS[activeChapterIndex];
@@ -53,16 +55,30 @@ export const MissionStory: React.FC<MissionStoryProps> = ({
           </div>
         </div>
 
-        {/* Mission Quick Stats Badge */}
+        {/* Mission Quick Stats & Close Button */}
         <div className="flex items-center gap-3 font-mono text-xs">
-          <div className="text-right">
-            <div className="text-zinc-400 text-[10px]">TOTAL SOLS</div>
-            <div className="text-amber-400 font-bold">{OPPORTUNITY_MISSION.actualLifespanSols}</div>
+          <div className="hidden sm:flex items-center gap-3">
+            <div className="text-right">
+              <div className="text-zinc-400 text-[10px]">TOTAL SOLS</div>
+              <div className="text-amber-400 font-bold">{OPPORTUNITY_MISSION.actualLifespanSols}</div>
+            </div>
+            <div className="text-right border-l border-space-border pl-3">
+              <div className="text-zinc-400 text-[10px]">DISTANCE</div>
+              <div className="text-cyan-400 font-bold">45.16 km</div>
+            </div>
           </div>
-          <div className="text-right border-l border-space-border pl-3">
-            <div className="text-zinc-400 text-[10px]">DISTANCE</div>
-            <div className="text-cyan-400 font-bold">45.16 km</div>
-          </div>
+
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-zinc-800/90 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-space-border text-xs font-mono transition-colors shadow-sm"
+              title="Hide Chronicle"
+              aria-label="Hide Chronicle"
+            >
+              <span>Hide</span>
+              <ChevronRight className="w-3.5 h-3.5 text-amber-400" />
+            </button>
+          )}
         </div>
       </div>
 

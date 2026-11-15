@@ -205,20 +205,20 @@ export const CitationDrawer: React.FC<CitationDrawerProps> = ({ isOpen, onClose 
             </ul>
           </div>
 
-          {/* Sound & Music Licensing */}
-          <div>
-            <h3 className="text-xs text-amber-400 font-bold uppercase tracking-wider mb-3">
-              4. Audio Architecture & Copyright Compliance
-            </h3>
-            <div className="p-3 rounded-lg bg-zinc-900/60 border border-zinc-800 font-sans text-[11px] text-zinc-300 space-y-1.5">
-              <p>
-                <strong>Synthesized Audio & Narration:</strong> Telemetry chirps and ambient soundbeds are synthesized in your browser (Web Audio), not a NASA recording. Spoken narration uses browser text-to-speech (not a recorded voice).
-              </p>
-              <p>
-                <strong>Commercial Music Exclusion:</strong> In strict compliance with competition rules, no commercial copyrighted sound recordings (such as Billie Holiday's master recording of "I'll Be Seeing You") are streamed or bundled. Final recovery commands were uplinked Feb 12, 2019 via the 70-meter Goldstone antenna (press accounts reported the song; NASA's official release does not mention it).
-              </p>
+            {/* Spoken Narration & Audio Licensing */}
+            <div>
+              <h3 className="text-xs text-amber-400 font-bold uppercase tracking-wider mb-3">
+                4. Audio Architecture & Copyright Compliance
+              </h3>
+              <div className="p-3 rounded-lg bg-zinc-900/60 border border-zinc-800 font-sans text-[11px] text-zinc-300 space-y-1.5">
+                <p>
+                  <strong>Browser Speech Narration:</strong> Spoken chronicle narration uses native browser text-to-speech (Web Speech API, not a recorded voice). No synthesized audio effects, oscillators, or simulated telemetry sounds are bundled.
+                </p>
+                <p>
+                  <strong>Commercial Music Exclusion:</strong> In strict compliance with competition rules, no commercial copyrighted sound recordings (such as Billie Holiday's master recording of "I'll Be Seeing You") are streamed or bundled. Final recovery commands were uplinked Feb 12, 2019 via the 70-meter Goldstone antenna (press accounts reported the song; NASA's official release does not mention it).
+                </p>
+              </div>
             </div>
-          </div>
         </div>
       </div>
     </div>

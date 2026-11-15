@@ -27,7 +27,8 @@ import {
   ExternalLink,
   X,
   Sparkles,
-  MapPin
+  MapPin,
+  BookOpen
 } from 'lucide-react';
 
 // IAU 2000 Mars Equirectangular Projection Definition
@@ -44,12 +45,16 @@ interface MarsSurfaceMapProps {
   selectedWaypoint: TraverseWaypoint | null;
   onSelectWaypoint: (wp: TraverseWaypoint | null) => void;
   onOpenLastSignal: () => void;
+  isStorySidebarOpen?: boolean;
+  onToggleStorySidebar?: () => void;
 }
 
 export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
   selectedWaypoint,
   onSelectWaypoint,
-  onOpenLastSignal
+  onOpenLastSignal,
+  isStorySidebarOpen,
+  onToggleStorySidebar
 }) => {
   const mapElement = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Map | null>(null);
@@ -251,14 +256,18 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
     });
   }, [selectedWaypoint]);
 
-  // Jump to Landmark Presets
-  const jumpTo = (coords: [number, number], zoomLevel: number) => {
+  // Jump to Landmark Presets and select waypoint
+  const jumpTo = (coords: [number, number], zoomLevel: number, wpId?: string) => {
     if (!mapRef.current) return;
     mapRef.current.getView().animate({
       center: coords,
       zoom: zoomLevel,
       duration: 1200
     });
+    if (wpId) {
+      const wp = OPPORTUNITY_WAYPOINTS.find((w) => w.id === wpId);
+      if (wp) onSelectWaypoint(wp);
+    }
   };
 
   return (
@@ -281,16 +290,16 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
           <span className="text-amber-400">{mapZoom}x</span>
         </div>
 
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-card/90 backdrop-blur-md border border-space-border/80 text-xs font-mono shadow-xl">
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-card/90 backdrop-blur-md border border-space-border/80 text-xs font-mono shadow-xl">
           <Layers className="w-3.5 h-3.5 text-amber-400" />
           <span className="text-zinc-400">BASEMAP:</span>
-          <span className="text-zinc-200">NASA MOLA (Native Zoom 0-7, Upscaled)</span>
+          <span className="text-zinc-200">NASA MOLA colour-coded elevation (463 m/px)</span>
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse ml-1" />
         </div>
       </div>
 
       {/* Trajectory Navigation Panel (Top-Right) */}
-      <div className="absolute top-4 right-4 z-20 flex flex-col gap-1.5">
+      <div className="absolute top-16 2xl:top-4 right-4 z-20 flex flex-col gap-1.5">
         <div className="px-3 py-2 rounded-lg bg-space-card/90 backdrop-blur-md border border-space-border/80 shadow-2xl flex flex-col gap-1.5 text-xs font-mono w-56">
           <div className="flex items-center gap-1.5 text-zinc-400 font-bold uppercase tracking-wider text-[10px] pb-1 border-b border-space-border">
             <Compass className="w-3.5 h-3.5 text-amber-400" />
@@ -298,7 +307,7 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
           </div>
 
           <button 
-            onClick={() => jumpTo([OPPORTUNITY_MISSION.landingCoordinates.lon, OPPORTUNITY_MISSION.landingCoordinates.lat], 13)}
+            onClick={() => jumpTo([OPPORTUNITY_MISSION.landingCoordinates.lon, OPPORTUNITY_MISSION.landingCoordinates.lat], 13, 'wp-01')}
             className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-emerald-950/60 hover:text-emerald-300 text-zinc-300 transition-colors text-left"
           >
             <span className="flex items-center gap-1.5 truncate">
@@ -309,7 +318,7 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
           </button>
 
           <button 
-            onClick={() => jumpTo([-5.5050, -1.9540], 13)}
+            onClick={() => jumpTo([-5.5050, -1.9540], 13, 'wp-03')}
             className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-amber-950/60 hover:text-amber-300 text-zinc-300 transition-colors text-left"
           >
             <span className="flex items-center gap-1.5 truncate">
@@ -320,7 +329,7 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
           </button>
 
           <button 
-            onClick={() => jumpTo([-5.5000, -2.0500], 12.5)}
+            onClick={() => jumpTo([-5.5000, -2.0500], 12.5, 'wp-04')}
             className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-amber-950/60 hover:text-amber-300 text-zinc-300 transition-colors text-left"
           >
             <span className="flex items-center gap-1.5 truncate">
@@ -331,7 +340,7 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
           </button>
 
           <button 
-            onClick={() => jumpTo([-5.3200, -2.1800], 11.5)}
+            onClick={() => jumpTo([-5.3200, -2.1800], 11.5, 'wp-05')}
             className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-amber-950/60 hover:text-amber-300 text-zinc-300 transition-colors text-left"
           >
             <span className="flex items-center gap-1.5 truncate">
@@ -342,7 +351,7 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
           </button>
 
           <button 
-            onClick={() => jumpTo([OPPORTUNITY_MISSION.restingCoordinates.lon, OPPORTUNITY_MISSION.restingCoordinates.lat], 13.5)}
+            onClick={() => jumpTo([OPPORTUNITY_MISSION.restingCoordinates.lon, OPPORTUNITY_MISSION.restingCoordinates.lat], 13.5, 'wp-08')}
             className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-rose-950/60 hover:text-rose-300 text-zinc-300 transition-colors text-left"
           >
             <span className="flex items-center gap-1.5 truncate">
@@ -377,6 +386,18 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
           <Radio className="w-4 h-4 text-rose-400 animate-pulse group-hover:scale-110 transition-transform" />
           <span>ACCESS: THE LAST SIGNAL</span>
         </button>
+
+        {/* Mission Chronicle Sidebar Toggle Button */}
+        {onToggleStorySidebar && (
+          <button
+            onClick={onToggleStorySidebar}
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-space-card/90 hover:bg-zinc-800 border border-space-border/80 text-zinc-300 hover:text-white text-xs font-mono font-semibold shadow-xl transition-all w-56 focus-visible:ring-2 focus-visible:ring-amber-400"
+            title={isStorySidebarOpen ? 'Hide Documentary Chronicle' : 'Open Documentary Chronicle'}
+          >
+            <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+            <span>{isStorySidebarOpen ? 'Hide Chronicle' : 'Mission Chronicle'}</span>
+          </button>
+        )}
       </div>
 
       {/* Selected Waypoint Detail Card Overlay */}
