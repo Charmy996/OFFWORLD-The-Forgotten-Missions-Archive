@@ -123,7 +123,7 @@ export const OPPORTUNITY_WAYPOINTS: TraverseWaypoint[] = [
     odometryTotalM: 33400.0,
     eventHighlight: 'Arrival at the 22-Kilometer Basin',
     description: 'Following a 21-kilometer crossing of open plains, Opportunity reached the 22-kilometer Endeavour Crater. At Cape York and Matijevic Hill (PIA16703), it discovered ancient clay minerals formed in water that was not strongly acidic.',
-    scientificDiscovery: 'Discovered smectite clay minerals at Matijevic Hill. These clay minerals formed in neutral-pH water in Mars\'s earliest Noachian epoch, confirming environments capable of supporting microbial life.',
+    scientificDiscovery: 'Discovered smectite clay minerals at Matijevic Hill. These clay minerals formed in water that was not strongly acidic in Mars\'s earliest Noachian epoch, confirming environments capable of supporting microbial life.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA16703.jpg',
     imageCaption: 'Matijevic Hill panorama on the rim of Endeavour Crater.',
     imageCredit: 'NASA / JPL-Caltech / Cornell / ASU',
@@ -141,7 +141,7 @@ export const OPPORTUNITY_WAYPOINTS: TraverseWaypoint[] = [
     odometryTotalM: 42195.0,
     eventHighlight: 'First Marathon on Another World',
     description: 'On March 24, 2015 (Sol 3968), Opportunity surpassed 42.195 kilometers (26.219 miles), completing the first marathon on another world. From high on the rim, it surveyed Marathon Valley.',
-    scientificDiscovery: 'Identified smectite clay minerals from the ancient Noachian era, confirming early water that was neutral-pH and not strongly acidic.',
+    scientificDiscovery: 'Identified smectite clay minerals from the ancient Noachian era, confirming early water that was not strongly acidic.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA19158.jpg',
     imageCaption: 'Opportunity\'s Marathon Journey: traverse map and vista overlooking Marathon Valley.',
     imageCredit: 'NASA / JPL-Caltech',
@@ -541,7 +541,7 @@ export const PLANETARY_ROVERS: PlanetaryExplorerRover[] = [
     shortSnippet: 'Drove 45.161 kilometers over 5,111 sols across Meridiani Planum, uncovering blueberries, gypsum, and smectite clays.',
     handwrittenStory: [
       'Opportunity touched down on January 24, 2004 Pacific time, rolling directly into Eagle Crater. The primary warranty was ninety sols, but the machine kept rolling across the red plain for over fifteen Earth years.',
-      'Along the way, it spent five weeks stuck in Purgatory Dune, drove along the jagged cliffs of Victoria Crater, and climbed the rim of Endeavour Crater. At Cape York and Matijevic Hill, it discovered ancient clay minerals, proving that neutral-pH water once flowed here.',
+      'Along the way, it spent five weeks stuck in Purgatory Dune, drove along the jagged cliffs of Victoria Crater, and climbed the rim of Endeavour Crater. At Cape York and Matijevic Hill, it discovered ancient clay minerals, proving that water that was not strongly acidic once flowed here.',
       'On March 24, 2015, Opportunity reached 42.195 kilometers, completing the first marathon on another world.',
       'In June 2018, a planet-encircling dust storm blotted out the Sun. Opportunity sent its final measurements on June 10, 2018, before falling silent in Perseverance Valley.'
     ],

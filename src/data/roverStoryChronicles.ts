@@ -73,7 +73,7 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
         narrative: [
           'On January 24, 2004 Pacific time, Opportunity plummeted through the thin carbon dioxide atmosphere enclosed in a tetrahedron of airbags. Bouncing dozens of times across the smooth plains of Meridiani, it rolled directly into the interior of Eagle Crater, a 22-meter depression.',
           'When the petals opened and the cameras deployed, geologists back on Earth gasped. Directly ahead lay layered bedrock, something never before seen on Mars. Within weeks, the microscopic imager uncovered millions of millimeter-sized gray spherules nicknamed blueberries.',
-          'Spectrometers proved these spherules were composed of hematite that precipitated out of neutral-to-acidic liquid water billions of years ago. Opportunity fulfilled its entire mission objective inside its landing crater before the 90-sol warranty even expired.'
+          'Spectrometers proved these spherules were composed of hematite that precipitated out of liquid water billions of years ago. Opportunity fulfilled its entire mission objective inside its landing crater before the 90-sol warranty even expired.'
         ],
         keyMilestone: 'Discovered gray hematite spherules, proving ancient standing liquid water in Meridiani Planum.',
         photojournalId: 'PIA18885',
@@ -90,7 +90,7 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
           'The rover scaled the precipitous cliffs of Victoria Crater, peer-inspected deep geological strata, and embarked on a multi-year sprint to the 22-kilometer Endeavour Crater. Along the rim at Cape York and Matijevic Hill (PIA16703), it discovered ancient clay minerals formed in water that was not strongly acidic.',
           'On March 24, 2015, on Sol 3968, Opportunity surpassed 42.195 kilometers. It became the first human machine in history to complete an Olympic marathon distance on the surface of another planet.'
         ],
-        keyMilestone: 'Completed the first 42.195 km marathon on another world and uncovered ancient clay minerals formed in neutral-pH water at Endeavour Crater.',
+        keyMilestone: 'Completed the first 42.195 km marathon on another world and uncovered ancient clay minerals formed in water that was not strongly acidic at Endeavour Crater.',
         photojournalId: 'PIA19158',
         photoUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA19158.jpg',
         photoCaption: 'Opportunity\'s Marathon Journey: traverse map and vista overlooking Marathon Valley and Endeavour Crater.',
@@ -154,7 +154,7 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
       { timestamp: 'Sol 5111 ~09:45 PDT', subsystem: 'MRO UHF', metric: 'Orbiter Relay Pass', value: 'Downlink Relayed to Earth', status: 'NOMINAL' },
       { timestamp: 'Sol 5111 ~10:05 PDT', subsystem: 'EARTH DSN', metric: 'Ground Station Reception', value: 'Transmission Stopped Mid-Frame', status: 'CRITICAL' }
     ],
-    scientificLegacy: 'Confirmed persistent, acidic-to-neutral groundwater on Mars, discovered hematite blueberries, discovered ancient clay minerals formed in neutral water, and provided fifteen years of continuous climatological data.',
+    scientificLegacy: 'Confirmed persistent groundwater on Mars, discovered hematite blueberries, discovered ancient clay minerals formed in water that was not strongly acidic, and provided fifteen years of continuous climatological data.',
     monumentSignificance: 'Permanent technological monument on the western rim of Endeavour Crater in Perseverance Valley.',
     provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR'
   },
