@@ -71,16 +71,18 @@ dialog::backdrop {
   background-color: #07080b !important;
 }
 
-/* OpenLayers zoom controls theme */
+/* OpenLayers zoom controls theme: positioned at top-left under CURSOR/BASEMAP chips */
 .ol-zoom {
-  top: auto !important;
-  bottom: 2rem !important;
-  left: 2rem !important;
+  top: 4.5rem !important;
+  bottom: auto !important;
+  left: 1rem !important;
+  right: auto !important;
   background: rgba(18, 20, 28, 0.85) !important;
   backdrop-filter: blur(8px);
   border: 1px solid rgba(56, 189, 248, 0.2) !important;
   border-radius: 0.5rem !important;
   padding: 4px !important;
+  z-index: 20 !important;
 }
 
 .ol-zoom button {
@@ -107,4 +109,5 @@ dialog::backdrop {
   color: #94a3b8 !important;
   font-family: monospace !important;
   font-size: 0.65rem !important;
+  z-index: 20 !important;
 }

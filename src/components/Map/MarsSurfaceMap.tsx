@@ -28,7 +28,8 @@ import {
   X,
   Sparkles,
   MapPin,
-  BookOpen
+  BookOpen,
+  ChevronDown
 } from 'lucide-react';
 
 // IAU 2000 Mars Equirectangular Projection Definition
@@ -58,9 +59,15 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
 }) => {
   const mapElement = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Map | null>(null);
-  const [mapZoom, setMapZoom] = useState<number>(9.5);
+  const [mapZoom, setMapZoom] = useState<number>(4.5);
   const [cursorCoords, setCursorCoords] = useState<{ lon: string; lat: string }>({ lon: '0.0000°', lat: '0.0000°' });
   const [imageError, setImageError] = useState<boolean>(false);
+  const [isLegendOpen, setIsLegendOpen] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 1100 && window.innerHeight >= 700;
+    }
+    return true;
+  });
 
   // Reset image error state whenever selected waypoint changes
   useEffect(() => {
@@ -73,7 +80,7 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
 
     // Verified NASA Mars Trek Tile Source
     // Capped at native maximum zoom (level 7) so OpenLayers upscales smoothly past it
-    // instead of querying non-existent higher zoom tiles that cause black basemap holes
+    // View is capped at maxZoom: 8 to stop blur
     const molaSource = new XYZ({
       projection: marsProjection,
       wrapX: true,
@@ -191,16 +198,16 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
       zIndex: 10
     });
 
-    // Create Map Instance
+    // Create Map Instance - initial zoom 4.5, capped at maxZoom 8 to stop blur
     const map = new Map({
       target: mapElement.current,
       layers: [baseTileLayer, vectorLayer],
       view: new View({
         projection: marsProjection,
         center: [-5.37, -2.10],
-        zoom: 9.5,
+        zoom: 4.5,
         minZoom: 1,
-        maxZoom: 16
+        maxZoom: 8
       })
     });
 
@@ -238,6 +245,10 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
       if (z !== undefined) setMapZoom(Math.round(z * 10) / 10);
     });
 
+    // Expose map on element for test geometry inspection
+    (mapElement.current as any).__ol_map__ = map;
+    (mapElement.current as any).__ol_vector_source__ = vectorSource;
+
     mapRef.current = map;
 
     return () => {
@@ -246,22 +257,23 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
     };
   }, []);
 
-  // Pan to selected waypoint when changed from outside
+  // Pan to selected waypoint when changed from outside (capped at zoom 8)
   useEffect(() => {
     if (!mapRef.current || !selectedWaypoint) return;
     mapRef.current.getView().animate({
       center: selectedWaypoint.coordinates,
-      zoom: 12,
+      zoom: 8,
       duration: 1000
     });
   }, [selectedWaypoint]);
 
-  // Jump to Landmark Presets and select waypoint
+  // Jump to Landmark Presets and select waypoint (capped at maxZoom 8)
   const jumpTo = (coords: [number, number], zoomLevel: number, wpId?: string) => {
     if (!mapRef.current) return;
+    const cappedZoom = Math.min(8, zoomLevel);
     mapRef.current.getView().animate({
       center: coords,
-      zoom: zoomLevel,
+      zoom: cappedZoom,
       duration: 1200
     });
     if (wpId) {
@@ -280,7 +292,10 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
       <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_120px_rgba(0,0,0,0.85)]" />
 
       {/* Top HUD: Coordinates & Basemap */}
-      <div className="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2">
+      <div 
+        data-testid="map-top-hud"
+        className="absolute top-4 left-4 z-20 flex flex-wrap items-center gap-2"
+      >
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-card/90 backdrop-blur-md border border-space-border/80 text-xs font-mono shadow-xl">
           <Crosshair className="w-3.5 h-3.5 text-cyan-400 animate-spin-slow" />
           <span className="text-zinc-400">CURSOR:</span>
@@ -290,7 +305,7 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
           <span className="text-amber-400">{mapZoom}x</span>
         </div>
 
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-card/90 backdrop-blur-md border border-space-border/80 text-xs font-mono shadow-xl">
+        <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-space-card/90 backdrop-blur-md border border-space-border/80 text-xs font-mono shadow-xl">
           <Layers className="w-3.5 h-3.5 text-amber-400" />
           <span className="text-zinc-400">BASEMAP:</span>
           <span className="text-zinc-200">NASA MOLA colour-coded elevation (463 m/px)</span>
@@ -298,111 +313,157 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
         </div>
       </div>
 
-      {/* Trajectory Navigation Panel (Top-Right) */}
-      <div className="absolute top-16 2xl:top-4 right-4 z-20 flex flex-col gap-1.5">
-        <div className="px-3 py-2 rounded-lg bg-space-card/90 backdrop-blur-md border border-space-border/80 shadow-2xl flex flex-col gap-1.5 text-xs font-mono w-56">
-          <div className="flex items-center gap-1.5 text-zinc-400 font-bold uppercase tracking-wider text-[10px] pb-1 border-b border-space-border">
-            <Compass className="w-3.5 h-3.5 text-amber-400" />
-            <span>Trajectory Navigation</span>
+      {/* Right Action Column: Trajectory Navigation, The Last Signal, Mission Chronicle, & Cartography Legend */}
+      <div 
+        data-testid="right-panel-stack"
+        className="absolute top-16 2xl:top-4 right-4 z-20 flex flex-col gap-2 max-h-[calc(100%-6.5rem)] overflow-y-auto pr-0.5"
+      >
+        <div data-testid="right-panels" className="flex flex-col gap-2 shrink-0">
+          {/* Trajectory Navigation Panel */}
+          <div className="px-3 py-2 rounded-lg bg-space-card/90 backdrop-blur-md border border-space-border/80 shadow-2xl flex flex-col gap-1.5 text-xs font-mono w-56 shrink-0">
+            <div className="flex items-center gap-1.5 text-zinc-400 font-bold uppercase tracking-wider text-[10px] pb-1 border-b border-space-border">
+              <Compass className="w-3.5 h-3.5 text-amber-400" />
+              <span>Trajectory Navigation</span>
+            </div>
+
+            <button 
+              onClick={() => jumpTo([OPPORTUNITY_MISSION.landingCoordinates.lon, OPPORTUNITY_MISSION.landingCoordinates.lat], 8, 'wp-01')}
+              className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-emerald-950/60 hover:text-emerald-300 text-zinc-300 transition-colors text-left"
+            >
+              <span className="flex items-center gap-1.5 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                <span className="truncate">Sol 1: Eagle Crater</span>
+              </span>
+              <span className="text-[10px] text-zinc-500 font-mono shrink-0">0.0 km</span>
+            </button>
+
+            <button 
+              onClick={() => jumpTo([-5.5050, -1.9540], 8, 'wp-03')}
+              className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-amber-950/60 hover:text-amber-300 text-zinc-300 transition-colors text-left"
+            >
+              <span className="flex items-center gap-1.5 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                <span className="truncate">Sol 134: Endurance</span>
+              </span>
+              <span className="text-[10px] text-zinc-500 font-mono shrink-0">0.9 km</span>
+            </button>
+
+            <button 
+              onClick={() => jumpTo([-5.5000, -2.0500], 8, 'wp-04')}
+              className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-amber-950/60 hover:text-amber-300 text-zinc-300 transition-colors text-left"
+            >
+              <span className="flex items-center gap-1.5 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                <span className="truncate">Sol 951: Victoria</span>
+              </span>
+              <span className="text-[10px] text-zinc-500 font-mono shrink-0">9.3 km</span>
+            </button>
+
+            <button 
+              onClick={() => jumpTo([-5.3200, -2.1800], 8, 'wp-05')}
+              className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-amber-950/60 hover:text-amber-300 text-zinc-300 transition-colors text-left"
+            >
+              <span className="flex items-center gap-1.5 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                <span className="truncate">Sol 2680: Cape York</span>
+              </span>
+              <span className="text-[10px] text-zinc-500 font-mono shrink-0">33.4 km</span>
+            </button>
+
+            <button 
+              onClick={() => jumpTo([OPPORTUNITY_MISSION.restingCoordinates.lon, OPPORTUNITY_MISSION.restingCoordinates.lat], 8, 'wp-08')}
+              className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-rose-950/60 hover:text-rose-300 text-zinc-300 transition-colors text-left"
+            >
+              <span className="flex items-center gap-1.5 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
+                <span className="truncate">Sol 5111: Perseverance Valley</span>
+              </span>
+              <span className="text-[10px] text-zinc-500 font-mono shrink-0">45.2 km</span>
+            </button>
+
+            <div className="pt-1 mt-1 border-t border-space-border/60 flex items-center justify-between">
+              <button 
+                onClick={() => jumpTo([-5.37, -2.10], 4.5)}
+                className="text-[11px] text-cyan-400 hover:text-cyan-300 flex items-center gap-1 py-0.5"
+              >
+                <Maximize2 className="w-3 h-3" />
+                <span>Full Traverse</span>
+              </button>
+              <button 
+                onClick={() => jumpTo([0, 0], 2)}
+                className="text-[11px] text-zinc-400 hover:text-zinc-200"
+              >
+                Global View
+              </button>
+            </div>
           </div>
 
-          <button 
-            onClick={() => jumpTo([OPPORTUNITY_MISSION.landingCoordinates.lon, OPPORTUNITY_MISSION.landingCoordinates.lat], 13, 'wp-01')}
-            className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-emerald-950/60 hover:text-emerald-300 text-zinc-300 transition-colors text-left"
+          {/* Dedicated "The Last Signal" Quick Access Button */}
+          <button
+            onClick={onOpenLastSignal}
+            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-rose-950/90 to-amber-950/90 hover:from-rose-900 hover:to-amber-900 border border-rose-500/50 text-rose-200 text-xs font-mono font-bold tracking-wider shadow-2xl transition-all group w-56 shrink-0"
           >
-            <span className="flex items-center gap-1.5 truncate">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-              <span className="truncate">Sol 1: Eagle Crater</span>
-            </span>
-            <span className="text-[10px] text-zinc-500 font-mono shrink-0">0.0 km</span>
+            <Radio className="w-4 h-4 text-rose-400 animate-pulse group-hover:scale-110 transition-transform" />
+            <span>ACCESS: THE LAST SIGNAL</span>
           </button>
 
-          <button 
-            onClick={() => jumpTo([-5.5050, -1.9540], 13, 'wp-03')}
-            className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-amber-950/60 hover:text-amber-300 text-zinc-300 transition-colors text-left"
-          >
-            <span className="flex items-center gap-1.5 truncate">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-              <span className="truncate">Sol 134: Endurance</span>
-            </span>
-            <span className="text-[10px] text-zinc-500 font-mono shrink-0">0.9 km</span>
-          </button>
-
-          <button 
-            onClick={() => jumpTo([-5.5000, -2.0500], 12.5, 'wp-04')}
-            className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-amber-950/60 hover:text-amber-300 text-zinc-300 transition-colors text-left"
-          >
-            <span className="flex items-center gap-1.5 truncate">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-              <span className="truncate">Sol 951: Victoria</span>
-            </span>
-            <span className="text-[10px] text-zinc-500 font-mono shrink-0">9.3 km</span>
-          </button>
-
-          <button 
-            onClick={() => jumpTo([-5.3200, -2.1800], 11.5, 'wp-05')}
-            className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-amber-950/60 hover:text-amber-300 text-zinc-300 transition-colors text-left"
-          >
-            <span className="flex items-center gap-1.5 truncate">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-              <span className="truncate">Sol 2680: Cape York</span>
-            </span>
-            <span className="text-[10px] text-zinc-500 font-mono shrink-0">33.4 km</span>
-          </button>
-
-          <button 
-            onClick={() => jumpTo([OPPORTUNITY_MISSION.restingCoordinates.lon, OPPORTUNITY_MISSION.restingCoordinates.lat], 13.5, 'wp-08')}
-            className="flex items-center justify-between gap-2 px-2 py-1 rounded bg-zinc-900/60 hover:bg-rose-950/60 hover:text-rose-300 text-zinc-300 transition-colors text-left"
-          >
-            <span className="flex items-center gap-1.5 truncate">
-              <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0" />
-              <span className="truncate">Sol 5111: Perseverance Valley</span>
-            </span>
-            <span className="text-[10px] text-zinc-500 font-mono shrink-0">45.2 km</span>
-          </button>
-
-          <div className="pt-1 mt-1 border-t border-space-border/60 flex items-center justify-between">
-            <button 
-              onClick={() => jumpTo([-5.37, -2.10], 9.5)}
-              className="text-[11px] text-cyan-400 hover:text-cyan-300 flex items-center gap-1 py-0.5"
+          {/* Mission Chronicle Sidebar Toggle Button */}
+          {onToggleStorySidebar && (
+            <button
+              onClick={onToggleStorySidebar}
+              className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-space-card/90 hover:bg-zinc-800 border border-space-border/80 text-zinc-300 hover:text-white text-xs font-mono font-semibold shadow-xl transition-all w-56 shrink-0 focus-visible:ring-2 focus-visible:ring-amber-400"
+              title={isStorySidebarOpen ? 'Hide Documentary Chronicle' : 'Open Documentary Chronicle'}
             >
-              <Maximize2 className="w-3 h-3" />
-              <span>Full Traverse</span>
+              <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+              <span>{isStorySidebarOpen ? 'Hide Chronicle' : 'Mission Chronicle'}</span>
             </button>
-            <button 
-              onClick={() => jumpTo([0, 0], 2)}
-              className="text-[11px] text-zinc-400 hover:text-zinc-200"
-            >
-              Global View
-            </button>
-          </div>
+          )}
         </div>
 
-        {/* Dedicated "The Last Signal" Quick Access Button */}
-        <button
-          onClick={onOpenLastSignal}
-          className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-rose-950/90 to-amber-950/90 hover:from-rose-900 hover:to-amber-900 border border-rose-500/50 text-rose-200 text-xs font-mono font-bold tracking-wider shadow-2xl transition-all group w-56"
+        {/* Collapsible Surface Map Cartography Legend (in same flex column below the stack) */}
+        <div 
+          data-testid="map-legend"
+          className="w-56 rounded-lg bg-space-card/90 backdrop-blur-md border border-space-border/80 shadow-2xl text-[10px] font-mono text-zinc-400 flex flex-col shrink-0 overflow-hidden"
         >
-          <Radio className="w-4 h-4 text-rose-400 animate-pulse group-hover:scale-110 transition-transform" />
-          <span>ACCESS: THE LAST SIGNAL</span>
-        </button>
-
-        {/* Mission Chronicle Sidebar Toggle Button */}
-        {onToggleStorySidebar && (
           <button
-            onClick={onToggleStorySidebar}
-            className="flex items-center justify-center gap-2 px-3 py-2 rounded-lg bg-space-card/90 hover:bg-zinc-800 border border-space-border/80 text-zinc-300 hover:text-white text-xs font-mono font-semibold shadow-xl transition-all w-56 focus-visible:ring-2 focus-visible:ring-amber-400"
-            title={isStorySidebarOpen ? 'Hide Documentary Chronicle' : 'Open Documentary Chronicle'}
+            onClick={() => setIsLegendOpen(!isLegendOpen)}
+            className="px-3 py-1.5 flex items-center justify-between text-zinc-300 hover:text-white transition-colors uppercase font-bold tracking-wider text-[10px] bg-zinc-900/60"
+            aria-expanded={isLegendOpen}
+            title={isLegendOpen ? 'Collapse cartography legend' : 'Expand cartography legend'}
           >
-            <BookOpen className="w-3.5 h-3.5 text-amber-400" />
-            <span>{isStorySidebarOpen ? 'Hide Chronicle' : 'Mission Chronicle'}</span>
+            <span>Cartography Legend</span>
+            <ChevronDown className={`w-3.5 h-3.5 text-zinc-400 transition-transform ${isLegendOpen ? 'rotate-180' : ''}`} />
           </button>
-        )}
+
+          {isLegendOpen && (
+            <div className="p-2.5 flex flex-col gap-1.5 border-t border-space-border/60">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-0.5 bg-cyan-400 rounded shrink-0" />
+                <span className="text-[10px] text-zinc-300">45.161 km Reconstructed Route</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                <span className="text-[10px] text-zinc-300">Landing: Eagle Crater (Exact)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+                <span className="text-[10px] text-zinc-300">Resting: Perseverance (Approx.)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
+                <span className="text-[10px] text-zinc-300">Major Scientific Discoveries</span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Selected Waypoint Detail Card Overlay */}
       {selectedWaypoint && (
-        <div className="absolute bottom-6 left-6 z-30 max-w-md w-[calc(100vw-3rem)] sm:w-96 rounded-xl bg-space-card/95 backdrop-blur-xl border border-space-border p-4 shadow-2xl text-zinc-200 animate-in fade-in slide-in-from-bottom-4 duration-300 max-h-[75vh] overflow-y-auto">
+        <div 
+          data-testid="waypoint-card"
+          className="absolute bottom-10 left-4 z-30 w-80 max-w-[calc(100%-5rem)] rounded-xl bg-space-card/95 backdrop-blur-xl border border-space-border p-4 shadow-2xl text-zinc-200 animate-in fade-in slide-in-from-bottom-4 duration-300 max-h-[240px] sm:max-h-[calc(100%-12rem)] overflow-y-auto"
+        >
           <div className="flex items-start justify-between gap-2 border-b border-space-border pb-3 mb-3">
             <div>
               <div className="flex items-center gap-2 mb-1">
@@ -497,27 +558,8 @@ export const MarsSurfaceMap: React.FC<MarsSurfaceMapProps> = ({
           </div>
         </div>
       )}
-
-      {/* Map Legend (Bottom Right) */}
-      <div className="hidden sm:flex absolute bottom-6 right-6 z-20 px-3 py-2 rounded-lg bg-space-card/85 backdrop-blur-md border border-space-border/80 text-[10px] font-mono text-zinc-400 flex-col gap-1 shadow-lg pointer-events-none">
-        <span className="text-zinc-500 uppercase font-bold tracking-wider mb-0.5">Surface Map Cartography</span>
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-0.5 bg-cyan-400 rounded" />
-          <span>45.161 km Reconstructed Route</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400" />
-          <span>Landing: Eagle Crater (Exact)</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-rose-500" />
-          <span>Resting: Perseverance Valley (Approx.)</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-amber-400" />
-          <span>Major Scientific Discoveries</span>
-        </div>
-      </div>
     </div>
   );
 };
+
+export default MarsSurfaceMap;

@@ -4,11 +4,13 @@ import { MarsSurfaceMap } from './components/Map/MarsSurfaceMap';
 import { MissionStory } from './components/Mission/MissionStory';
 import { LastSignalModal } from './components/LastSignal/LastSignalModal';
 import { CitationDrawer } from './components/Citations/CitationDrawer';
+import { PlanetView } from './components/Planet/PlanetView';
 import { TraverseWaypoint } from './types/mission';
 import { OPPORTUNITY_WAYPOINTS, PLANETARY_ROVERS } from './data/opportunityData';
 import { RoverStoryModal } from './components/Planet/RoverStoryModal';
 
 export function App() {
+  const [currentView, setCurrentView] = useState<'overview' | 'surface'>('surface');
   const [selectedWaypoint, setSelectedWaypoint] = useState<TraverseWaypoint | null>(null);
   const [isLastSignalOpen, setIsLastSignalOpen] = useState<boolean>(false);
   const [isCitationsOpen, setIsCitationsOpen] = useState<boolean>(false);
@@ -22,6 +24,9 @@ export function App() {
 
   // Jump from story to site
   const handleJumpToSite = (coords: [number, number]) => {
+    if (currentView !== 'surface') {
+      setCurrentView('surface');
+    }
     const matchingWp = OPPORTUNITY_WAYPOINTS.find(
       (wp) => Math.abs(wp.coordinates[0] - coords[0]) < 0.05 && Math.abs(wp.coordinates[1] - coords[1]) < 0.05
     );
@@ -34,6 +39,8 @@ export function App() {
     <div className="flex flex-col w-screen h-screen bg-[#050608] text-zinc-100 overflow-hidden font-sans">
       {/* Top Mission Header */}
       <Header
+        currentView={currentView}
+        onViewChange={setCurrentView}
         onOpenLastSignal={() => setIsLastSignalOpen(true)}
         onOpenCitations={() => setIsCitationsOpen(true)}
         onOpenRoverStories={() => setIsRoverStoryOpen(true)}
@@ -41,35 +48,54 @@ export function App() {
 
       {/* Main Workspace Layout */}
       <div className="relative flex-1 flex overflow-hidden">
-        {/* Opportunity 2D Surface Traverse Map */}
-        <div className="flex-1 relative h-full">
-          <MarsSurfaceMap
-            selectedWaypoint={selectedWaypoint}
-            onSelectWaypoint={setSelectedWaypoint}
-            onOpenLastSignal={() => setIsLastSignalOpen(true)}
-            isStorySidebarOpen={isStorySidebarOpen}
-            onToggleStorySidebar={() => setIsStorySidebarOpen(!isStorySidebarOpen)}
-          />
-        </div>
-
-        {/* Right Sidebar: Cinematic Documentary Story */}
-        {isStorySidebarOpen && (
-          <div className="absolute sm:relative right-0 top-0 bottom-0 w-full sm:w-96 lg:w-[440px] h-full shrink-0 z-30 animate-in slide-in-from-right duration-300">
-            <MissionStory
-              onJumpToSite={handleJumpToSite}
+        {currentView === 'overview' ? (
+          /* View 1: Mars Overview (Illustrative 2D Globe) */
+          <div className="flex-1 relative h-full">
+            <PlanetView
+              onOpenTraverseMap={() => setCurrentView('surface')}
               onOpenLastSignal={() => setIsLastSignalOpen(true)}
-              onClose={() => setIsStorySidebarOpen(false)}
+              onOpenRoverChronicles={() => setIsRoverStoryOpen(true)}
             />
           </div>
+        ) : (
+          /* View 2: Opportunity 2D Surface Traverse Map */
+          <>
+            <div className="flex-1 relative h-full">
+              <MarsSurfaceMap
+                selectedWaypoint={selectedWaypoint}
+                onSelectWaypoint={setSelectedWaypoint}
+                onOpenLastSignal={() => setIsLastSignalOpen(true)}
+                isStorySidebarOpen={isStorySidebarOpen}
+                onToggleStorySidebar={() => setIsStorySidebarOpen(!isStorySidebarOpen)}
+              />
+            </div>
+
+            {/* Right Sidebar: Cinematic Documentary Story */}
+            {isStorySidebarOpen && (
+              <div 
+                data-testid="chronicle-sidebar"
+                className="absolute sm:relative right-0 top-0 bottom-0 w-full sm:w-96 lg:w-[440px] h-full shrink-0 z-30 animate-in slide-in-from-right duration-300"
+              >
+                <MissionStory
+                  onJumpToSite={handleJumpToSite}
+                  onOpenLastSignal={() => setIsLastSignalOpen(true)}
+                  onClose={() => setIsStorySidebarOpen(false)}
+                />
+              </div>
+            )}
+          </>
         )}
       </div>
 
       {/* Bottom Status Bar */}
-      <footer className="h-8 px-6 bg-space-void border-t border-space-border/80 flex items-center justify-between text-[11px] font-mono text-zinc-400 select-none z-40">
+      <footer 
+        data-testid="app-footer"
+        className="h-8 px-6 bg-space-void border-t border-space-border/80 flex items-center justify-between text-[11px] font-mono text-zinc-400 select-none z-40 shrink-0"
+      >
         <div className="flex items-center gap-4">
           <span className="text-zinc-500">CURRENT TARGET:</span>
           <span className="text-amber-400 font-bold uppercase">
-            Opportunity (MER-B) Traverse
+            {currentView === 'overview' ? 'Mars Overview (2D Globe)' : 'Opportunity (MER-B) Traverse'}
           </span>
         </div>
 
@@ -91,7 +117,10 @@ export function App() {
         rover={PLANETARY_ROVERS[0]}
         isOpen={isRoverStoryOpen}
         onClose={() => setIsRoverStoryOpen(false)}
-        onOpenTraverseMap={() => setIsRoverStoryOpen(false)}
+        onOpenTraverseMap={() => {
+          setIsRoverStoryOpen(false);
+          setCurrentView('surface');
+        }}
         onOpenLastSignal={() => {
           setIsRoverStoryOpen(false);
           setIsLastSignalOpen(true);

@@ -2,16 +2,22 @@ import React from 'react';
 import { 
   Radio, 
   Database, 
-  BookOpen
+  BookOpen,
+  Globe,
+  Map as MapIcon
 } from 'lucide-react';
 
 interface HeaderProps {
+  currentView?: 'overview' | 'surface';
+  onViewChange?: (view: 'overview' | 'surface') => void;
   onOpenLastSignal: () => void;
   onOpenCitations: () => void;
   onOpenRoverStories?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
+  currentView = 'surface',
+  onViewChange,
   onOpenLastSignal,
   onOpenCitations,
   onOpenRoverStories
@@ -40,17 +46,60 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Vertical Divider */}
-        <div className="hidden sm:block h-6 w-px bg-space-border" />
+        <div className="hidden lg:block h-6 w-px bg-space-border" />
 
-        {/* Mission Identification */}
-        <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-xs font-mono">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="font-semibold tracking-wider">OPPORTUNITY (MER-B)</span>
-        </div>
+        {/* View Mode Switcher: Mars Overview vs Opportunity Traverse Map */}
+        {onViewChange && (
+          <div className="hidden md:flex items-center gap-1 p-1 rounded-xl bg-space-card/80 border border-space-border">
+            <button
+              onClick={() => onViewChange('overview')}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono transition-all focus-visible:ring-2 focus-visible:ring-amber-400 ${
+                currentView === 'overview'
+                  ? 'bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              <Globe className="w-3.5 h-3.5 text-amber-400" />
+              <span>Mars Overview</span>
+            </button>
+
+            <button
+              onClick={() => onViewChange('surface')}
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono transition-all focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+                currentView === 'surface'
+                  ? 'bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40 shadow-sm'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              <MapIcon className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Opportunity Traverse Map</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Right Controls & Actions */}
       <div className="flex items-center gap-2 sm:gap-3">
+        {/* Mobile View Toggle */}
+        {onViewChange && (
+          <div className="flex md:hidden items-center p-0.5 rounded-lg bg-space-card border border-space-border">
+            <button
+              onClick={() => onViewChange('overview')}
+              className={`p-1.5 rounded text-xs font-mono ${currentView === 'overview' ? 'bg-amber-500/20 text-amber-300' : 'text-zinc-400'}`}
+              title="Mars Overview"
+            >
+              <Globe className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => onViewChange('surface')}
+              className={`p-1.5 rounded text-xs font-mono ${currentView === 'surface' ? 'bg-cyan-500/20 text-cyan-300' : 'text-zinc-400'}`}
+              title="Opportunity Traverse Map"
+            >
+              <MapIcon className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
         {/* Rover Chronicles Button */}
         {onOpenRoverStories && (
           <button
