@@ -116,6 +116,8 @@ The human OFFWORLD team directed all development, authored the project requireme
 
 Team of 4:
 - Charmy Parekh
-Team members: (add names)
+- Ariea Sampat
+- Rannbir Sachdeva
+- Neelansh Pandey
 
 License: MIT (see LICENSE).
