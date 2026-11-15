@@ -25,7 +25,8 @@ import {
   Clock,
   Gauge,
   Sliders,
-  Palette
+  Palette,
+  Camera
 } from 'lucide-react';
 
 export type StoryTheme = 'amber' | 'cyan' | 'stealth' | 'gold';
@@ -671,16 +672,23 @@ export const RoverStoryExperience: React.FC<RoverStoryExperienceProps> = ({
                   {/* Photojournal Card (if present) */}
                   {currentAct.photoUrl && (
                     <div className="p-3 rounded-xl bg-black/60 border border-space-border/80 flex flex-col sm:flex-row items-center gap-4">
-                      <div className="w-full sm:w-44 h-28 rounded-lg overflow-hidden border border-space-border shrink-0 bg-zinc-950 flex items-center justify-center">
+                      <div className="w-full sm:w-44 h-28 rounded-lg overflow-hidden border border-space-border shrink-0 bg-zinc-950 flex items-center justify-center relative group">
                         <img
                           src={currentAct.photoUrl}
                           alt={currentAct.photoCaption || 'NASA Mission Imagery'}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          referrerPolicy="no-referrer"
+                          loading="lazy"
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 relative z-10"
                           onError={(e) => {
-                            // Graceful fallback if external image fails
-                            (e.target as HTMLElement).style.display = 'none';
+                            // If external image blocked, fade out image to reveal NASA archive plaque behind
+                            (e.target as HTMLElement).style.opacity = '0';
                           }}
                         />
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-2 text-center text-zinc-500 bg-zinc-950 font-mono text-[10px]">
+                          <Camera className="w-5 h-5 text-zinc-600 mb-1" />
+                          <span className="text-zinc-300 font-bold">{currentAct.photojournalId || 'NASA PDS'}</span>
+                          <span className="text-[9px] text-zinc-600">PHOTOJOURNAL RECORD</span>
+                        </div>
                       </div>
                       <div className="flex-1 text-xs space-y-1">
                         <div className="flex items-center gap-2">
