@@ -5,8 +5,9 @@ import { MissionStory } from './components/Mission/MissionStory';
 import { LastSignalModal } from './components/LastSignal/LastSignalModal';
 import { CitationDrawer } from './components/Citations/CitationDrawer';
 import { PlanetView } from './components/Planet/PlanetView';
-import { TraverseWaypoint } from './types/mission';
-import { OPPORTUNITY_WAYPOINTS } from './data/opportunityData';
+import { TraverseWaypoint, PlanetaryExplorerRover } from './types/mission';
+import { OPPORTUNITY_WAYPOINTS, PLANETARY_ROVERS } from './data/opportunityData';
+import { RoverStoryModal } from './components/Planet/RoverStoryModal';
 import { 
   ChevronRight, 
   ChevronLeft
@@ -22,6 +23,8 @@ export function App() {
   const [isCitationsOpen, setIsCitationsOpen] = useState<boolean>(false);
   const [isAudioPlaying, setIsAudioPlaying] = useState<boolean>(false);
   const [isStorySidebarOpen, setIsStorySidebarOpen] = useState<boolean>(true);
+  const [isRoverStoryOpen, setIsRoverStoryOpen] = useState<boolean>(false);
+  const [selectedStoryRover, setSelectedStoryRover] = useState<PlanetaryExplorerRover>(PLANETARY_ROVERS[0]);
 
   // Jump from story to site
   const handleJumpToSite = (coords: [number, number], zoom: number) => {
@@ -46,6 +49,10 @@ export function App() {
         onToggleAudio={() => setIsAudioPlaying(!isAudioPlaying)}
         onOpenLastSignal={() => setIsLastSignalOpen(true)}
         onOpenCitations={() => setIsCitationsOpen(true)}
+        onOpenRoverStories={() => {
+          setSelectedStoryRover(PLANETARY_ROVERS[0]);
+          setIsRoverStoryOpen(true);
+        }}
       />
 
       {/* Main Workspace Layout */}
@@ -68,6 +75,10 @@ export function App() {
                 }}
                 onOpenLastSignal={() => setIsLastSignalOpen(true)}
                 onFallbackTo2DMap={() => setCurrentView('surface')}
+                onOpenRoverStory={() => {
+                  setSelectedStoryRover(PLANETARY_ROVERS[0]);
+                  setIsRoverStoryOpen(true);
+                }}
               />
             </React.Suspense>
           </div>
@@ -147,6 +158,20 @@ export function App() {
       </footer>
 
       {/* Modals & Drawers */}
+      <RoverStoryModal
+        rover={selectedStoryRover}
+        isOpen={isRoverStoryOpen}
+        onClose={() => setIsRoverStoryOpen(false)}
+        onOpenTraverseMap={() => {
+          setIsRoverStoryOpen(false);
+          setCurrentView('surface');
+        }}
+        onOpenLastSignal={() => {
+          setIsRoverStoryOpen(false);
+          setIsLastSignalOpen(true);
+        }}
+      />
+
       <LastSignalModal
         isOpen={isLastSignalOpen}
         onClose={() => setIsLastSignalOpen(false)}

@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { OPPORTUNITY_MISSION } from '../../data/opportunityData';
-import { Compass, Radio, ExternalLink, RotateCcw, AlertCircle } from 'lucide-react';
+import { Compass, Radio, ExternalLink, RotateCcw, AlertCircle, BookOpen } from 'lucide-react';
 
 interface MarsGlobe3DProps {
   onOpen2DMap: (coords?: [number, number], zoom?: number) => void;
   onOpenLastSignal: () => void;
   onFallbackTo2DMap: () => void;
+  onOpenRoverStory?: () => void;
 }
 
 export const MarsGlobe3D: React.FC<MarsGlobe3DProps> = ({
   onOpen2DMap,
   onOpenLastSignal,
-  onFallbackTo2DMap
+  onFallbackTo2DMap,
+  onOpenRoverStory
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -576,6 +578,16 @@ export const MarsGlobe3D: React.FC<MarsGlobe3DProps> = ({
               </p>
 
               <div className="pt-1 flex flex-col gap-1.5">
+                {onOpenRoverStory && (
+                  <button
+                    onClick={onOpenRoverStory}
+                    className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-200 font-bold transition-colors focus-visible:ring-2 focus-visible:ring-amber-400"
+                  >
+                    <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Read Rover Chronicle</span>
+                  </button>
+                )}
+
                 <button
                   onClick={() => onOpen2DMap([-5.22, -2.24], 13.5)}
                   className="w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-500/40 text-cyan-200 font-bold transition-colors focus-visible:ring-2 focus-visible:ring-cyan-400"

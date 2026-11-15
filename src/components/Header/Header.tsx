@@ -6,7 +6,8 @@ import {
   Database, 
   Globe,
   Map as MapIcon,
-  CircleDot
+  CircleDot,
+  BookOpen
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -16,6 +17,7 @@ interface HeaderProps {
   onToggleAudio: () => void;
   onOpenLastSignal: () => void;
   onOpenCitations: () => void;
+  onOpenRoverStories?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -24,7 +26,8 @@ export const Header: React.FC<HeaderProps> = ({
   isAudioPlaying,
   onToggleAudio,
   onOpenLastSignal,
-  onOpenCitations
+  onOpenCitations,
+  onOpenRoverStories
 }) => {
   return (
     <header className="h-16 px-4 sm:px-6 bg-space-void/95 backdrop-blur-md border-b border-space-border flex items-center justify-between z-40 select-none">
@@ -118,6 +121,18 @@ export const Header: React.FC<HeaderProps> = ({
             <MapIcon className="w-4 h-4" />
           </button>
         </div>
+
+        {/* Rover Chronicles Button */}
+        {onOpenRoverStories && (
+          <button
+            onClick={onOpenRoverStories}
+            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg bg-amber-950/70 hover:bg-amber-900/80 border border-amber-500/40 text-amber-300 text-xs font-mono font-semibold transition-all shadow-md hover:shadow-[0_0_15px_rgba(245,158,11,0.25)] focus-visible:ring-2 focus-visible:ring-amber-400"
+            title="Open Interactive Rover Stories & Chronicles"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+            <span className="hidden lg:inline">ROVER CHRONICLES</span>
+          </button>
+        )}
 
         {/* Ambient Web Audio Uplink Button */}
         <AmbientAudio isPlaying={isAudioPlaying} onToggle={onToggleAudio} />
