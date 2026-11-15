@@ -6,6 +6,34 @@ OFFWORLD is an interactive planetary exploration chronicle dedicated to humanity
 
 ---
 
+## Interface Screenshots
+
+### Opportunity Traverse Map
+![Opportunity Traverse Map](docs/screenshots/01-traverse-map.png)
+*Opportunity Traverse Map*
+
+### Mission Chronicles panel (3-act narrative)
+![Mission Chronicles panel (3-act narrative)](docs/screenshots/02-rover-chronicles-acts.png)
+*Mission Chronicles panel (3-act narrative)*
+
+### The Last Signal archive (sol 5,111)
+![The Last Signal archive (sol 5,111)](docs/screenshots/03-the-last-signal.png)
+*The Last Signal archive (sol 5,111)*
+
+### NASA Primary Sources & Data Provenance Register
+![NASA Primary Sources & Data Provenance Register](docs/screenshots/04-sources-provenance.png)
+*NASA Primary Sources & Data Provenance Register*
+
+### Rover Chronicles dossier
+![Rover Chronicles dossier](docs/screenshots/05-rover-chronicles-modal.png)
+*Rover Chronicles dossier*
+
+### Mars Overview (2D illustrative globe)
+![Mars Overview (2D illustrative globe)](docs/screenshots/06-mars-overview.png)
+*Mars Overview (2D illustrative globe)*
+
+---
+
 ## Architecture and Key Capabilities
 
 ### 1. Opportunity (MER-B) Surface Traverse Map
