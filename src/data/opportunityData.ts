@@ -1,30 +1,34 @@
-import { TraverseWaypoint, MissionChapter, LastSignalMetadata } from '../types/mission';
+import { TraverseWaypoint, MissionChapter, LastSignalMetadata, PlanetaryExplorerRover } from '../types/mission';
 
 export const OPPORTUNITY_MISSION = {
   id: 'opportunity',
   name: 'Opportunity',
   designation: 'MER-B (Mars Exploration Rover B)',
-  tagline: 'The 15-Year Marathon of Meridiani',
   targetBody: 'Mars',
   launchDate: '2003-07-08T03:18:00Z',
   landingDate: '2004-01-25', // UTC; Jan 24, 2004 in Pacific time
   landingDatePacific: '2004-01-24',
-  lastSignalDate: '2018-06-10',
-  missionDeclaredEnded: '2019-02-13',
+  landingDateUtc: '2004-01-25T05:05:00Z',
+  landingDatePst: '2004-01-24T21:05:00 PST',
+  lastSignalDate: '2018-06-10 (Mars exposures ~09:30 and 09:33 PDT, MRO relay ~09:45 PDT, Earth reception ~10:05 PDT)',
+  missionDeclaredEnded: '2019-02-13T19:00:00Z',
   plannedLifespanSols: 90,
   actualLifespanSols: 5111,
   totalTraverseMeters: 45161.0,
+  marathonMilestoneDate: '2015-03-24 (Sol 3968)',
   landingCoordinates: {
     lat: -1.9462,
     lon: -5.5266, // 354.4734° E in IAU 2000 Mars
     elevationMolaM: -1440.2,
-    siteName: 'Eagle Crater (Challenger Memorial Station)'
+    siteName: 'Eagle Crater (Challenger Memorial Station)',
+    accuracy: 'Exact (verified via NASA PDS RMC Site 000)'
   },
   restingCoordinates: {
     lat: -2.2400,
     lon: -5.2200, // 354.7800° E in IAU 2000 Mars
     elevationMolaM: -1218.4,
-    siteName: 'Perseverance Valley (Endeavour Crater Rim)'
+    siteName: 'Perseverance Valley (approximate, reconstructed)',
+    accuracy: 'Approximate (reconstructed traverse endpoint)'
   }
 };
 
@@ -32,16 +36,18 @@ export const OPPORTUNITY_WAYPOINTS: TraverseWaypoint[] = [
   {
     id: 'wp-01',
     sol: 1,
-    dateEarth: '2004-01-25',
+    dateEarth: 'Jan 24, 2004 PST / Jan 25, 2004 UTC',
     siteName: 'Eagle Crater (Challenger Memorial Station)',
     coordinates: [-5.5266, -1.9462],
     elevationMolaM: -1440.2,
     odometryTotalM: 0.0,
-    eventHighlight: 'Touchdown: Interplanetary Hole-in-One',
-    description: 'After bouncing on airbags, Opportunity rolled across Meridiani Planum and settled directly inside a 22-meter-wide impact crater, exposing layered sulfate bedrock.',
-    scientificDiscovery: 'Discovered sub-centimeter gray hematite spherules ("Blueberries"), the first definitive mineralogical proof of past liquid water on Mars.',
+    eventHighlight: 'Touchdown in Meridiani Planum',
+    description: 'After bouncing in its protective airbag cocoon, Opportunity rolled across the dark plains and settled inside the 22-meter Eagle Crater, exposing layered bedrock right in front of its cameras.',
+    scientificDiscovery: 'Discovered small hematite spherules nicknamed "blueberries", offering unambiguous proof that liquid water once bathed this ancient Martian plain.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA05474.jpg',
-    imageCaption: 'Hematite spherules ("blueberries") nestled in rock outcrop at Eagle Crater (Pancam false color).',
+    imageCaption: 'Hematite spherules ("blueberries") nestled in rock outcrop at Eagle Crater.',
+    imageCredit: 'NASA / JPL / Cornell',
+    sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA05474',
     provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR',
     category: 'landing'
   },
@@ -54,7 +60,7 @@ export const OPPORTUNITY_WAYPOINTS: TraverseWaypoint[] = [
     elevationMolaM: -1438.0,
     odometryTotalM: 450.0,
     eventHighlight: 'First Plains Waypoint',
-    description: 'A modest 8-meter crater visited en route to Endurance. Provided early confirmation that the sulfate bedrock continued well beyond Eagle Crater.',
+    description: 'An 8-meter impact crater inspected en route to Endurance. Outcrops confirmed that sulfate bedrock extended far across the plains beyond Eagle Crater.',
     provenance: 'AUTHENTIC_TELEMETRY_JPL_RMC',
     category: 'milestone'
   },
@@ -66,26 +72,30 @@ export const OPPORTUNITY_WAYPOINTS: TraverseWaypoint[] = [
     coordinates: [-5.5050, -1.9540],
     elevationMolaM: -1448.5,
     odometryTotalM: 920.0,
-    eventHighlight: 'Descent into Deep Stratigraphy',
-    description: 'Engineers commanded the rover to descend a 25-degree slope into the 130-meter-wide Endurance Crater, examining deep, ancient sedimentary rock strata.',
-    scientificDiscovery: 'Chemical analysis showed layers formed under standing acidic water that periodically dried out and flooded.',
+    eventHighlight: 'Descent into Deep Rock Strata',
+    description: 'Engineers commanded Opportunity down a 25-degree slope into the 130-meter crater to study deep sedimentary layers exposed in the cliffs.',
+    scientificDiscovery: 'Rock layers proved ancient surface water here was acidic and repeatedly evaporated and flooded before disappearing.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA06757.jpg',
     imageCaption: 'Endurance Crater interior walls and dunes viewed from Karatepe entry.',
+    imageCredit: 'NASA / JPL / Cornell',
+    sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA06757',
     provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR',
     category: 'discovery'
   },
   {
     id: 'wp-04',
     sol: 446,
-    dateEarth: '2005-04-26',
-    siteName: 'Purgatory Dune',
+    dateEarth: '2005-04-26 to 2005-06-04',
+    siteName: 'Purgatory Dune (Sand Ripple Trap)',
     coordinates: [-5.4850, -1.9880],
     elevationMolaM: -1432.0,
     odometryTotalM: 5350.0,
-    eventHighlight: 'Trapped in Sand Ripple',
-    description: 'All six wheels bogged down up to the axles in fine powdery sand. For five weeks, JPL engineers tested drive maneuvers on Earth before carefully extricating the rover.',
+    eventHighlight: 'Five-Week Sand Extrication',
+    description: 'On April 26, 2005 (Sol 446), all six wheels bogged down to their axles in soft drift sand. For five weeks, engineers ran tests in an Earth sandbox before successfully driving the rover free on June 4, 2005 (Sol 484).',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA07997.jpg',
     imageCaption: 'Deep wheel ruts left in Purgatory Dune as Opportunity worked itself free.',
+    imageCredit: 'NASA / JPL',
+    sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA07997',
     provenance: 'AUTHENTIC_TELEMETRY_JPL_RMC',
     category: 'hazard'
   },
@@ -98,10 +108,12 @@ export const OPPORTUNITY_WAYPOINTS: TraverseWaypoint[] = [
     elevationMolaM: -1420.0,
     odometryTotalM: 9280.0,
     eventHighlight: 'Arrival at the Promontories',
-    description: 'A magnificent 750-meter-wide impact crater featuring jagged alcoves and promontories like Cape Verde. Opportunity explored Victoria for nearly two Earth years.',
-    scientificDiscovery: 'Confirmed regional groundwater table fluctuations across kilometers of Martian crust.',
+    description: 'A 750-meter crater with dramatic layered cliffs and alcoves. Opportunity surveyed the rim and drove inside Duck Bay, operating at Victoria for nearly two Earth years.',
+    scientificDiscovery: 'Confirmed regional groundwater fluctuations across kilometers of Martian crust.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA08813.jpg',
     imageCaption: 'Cape Verde promontory rising over the floor of Victoria Crater.',
+    imageCredit: 'NASA / JPL / Cornell',
+    sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA08813',
     provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR',
     category: 'discovery'
   },
@@ -114,26 +126,30 @@ export const OPPORTUNITY_WAYPOINTS: TraverseWaypoint[] = [
     elevationMolaM: -1350.0,
     odometryTotalM: 33400.0,
     eventHighlight: 'Arrival at the 22-Kilometer Basin',
-    description: 'After a grueling 21-kilometer drive across open plains, Opportunity reached the rim of the ancient Noachian-era Endeavour Crater.',
-    scientificDiscovery: 'Discovered "Homestake", a pencil-thick mineral vein of pure gypsum (calcium sulfate) precipitated from neutral-pH liquid water.',
+    description: 'Following a 21-kilometer crossing of open plains, Opportunity reached Endeavour Crater. At Cape York, it discovered Homestake, a gypsum vein that remains one of the mission top water discoveries.',
+    scientificDiscovery: 'Discovered "Homestake", a bright vein of pure calcium sulfate (gypsum). Gypsum precipitates from neutral water rather than acid, proving conditions were not strongly acidic and could have supported microbial life.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA15032.jpg',
     imageCaption: 'The "Homestake" gypsum vein at Cape York (Pancam false color).',
+    imageCredit: 'NASA / JPL-Caltech / Cornell / ASU',
+    sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA15032',
     provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR',
     category: 'discovery'
   },
   {
     id: 'wp-07',
-    sol: 3800,
-    dateEarth: '2014-10-06',
+    sol: 3968,
+    dateEarth: '2015-03-24',
     siteName: 'Cape Tribulation & Marathon Valley',
     coordinates: [-5.2700, -2.2150],
     elevationMolaM: -1280.0,
-    odometryTotalM: 41200.0,
-    eventHighlight: 'Off-World Marathon Milestone',
-    description: 'Opportunity surpassed the official 42.195 km marathon distance on Sol 3968, climbing high along the rim of Endeavour to study ancient smectite clay rocks.',
-    scientificDiscovery: 'Evidence of alkaline, non-acidic waters from the earliest chapter of Martian history.',
+    odometryTotalM: 42195.0,
+    eventHighlight: 'First Marathon on Another World',
+    description: 'On March 24, 2015 (Sol 3968), Opportunity surpassed 42.195 kilometers (26.219 miles), completing the first marathon on another world. From high on the rim, it surveyed Marathon Valley.',
+    scientificDiscovery: 'Identified smectite clay minerals from the ancient Noachian era, confirming early water that was neutral-pH and not strongly acidic.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA15689.jpg',
     imageCaption: 'The Greeley Panorama: 360-degree gigapixel view from Cape Tribulation.',
+    imageCredit: 'NASA / JPL-Caltech / Cornell / ASU',
+    sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA15689',
     provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR',
     category: 'milestone'
   },
@@ -141,21 +157,22 @@ export const OPPORTUNITY_WAYPOINTS: TraverseWaypoint[] = [
     id: 'wp-08',
     sol: 5111,
     dateEarth: '2018-06-10',
-    siteName: 'Perseverance Valley (Endeavour Rim)',
+    siteName: 'Perseverance Valley (approximate, reconstructed)',
     coordinates: [-5.2200, -2.2400],
     elevationMolaM: -1218.4,
     odometryTotalM: 45161.0,
-    eventHighlight: 'The Last Signal — Final Resting Place',
-    description: 'While driving down Perseverance Valley, a planet-encircling dust storm blotted out the Sun. Opportunity entered low-power hibernation and never awoke.',
-    scientificDiscovery: 'Valley carved into crater rim possibly by fluid flow or wind deflation before rover fell silent.',
+    eventHighlight: 'The Last Signal in Perseverance Valley',
+    description: 'Descending Perseverance Valley on the western rim of Endeavour Crater, Opportunity was enveloped by a planet-encircling dust storm. After capturing its final opacity measurements on June 10, 2018, the rover entered low-power sleep and never woke up.',
+    scientificDiscovery: 'Examined valley floor fluid chutes cut into the ancient rim before the dust storm ended communications.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA22929.jpg',
-    imageCaption: 'PIA22929: "Opportunity\'s Last Message" — The final incomplete Pancam frame.',
+    imageCaption: 'PIA22929: "Opportunity\'s Last Message", final incomplete Pancam frame.',
+    imageCredit: 'NASA / JPL-Caltech',
+    sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA22929',
     provenance: 'NASA_PHOTOJOURNAL_PIA',
     category: 'final'
   }
 ];
 
-// Continuous route interpolation representing the authentic 45.161 km drive
 export const OPPORTUNITY_ROUTE_COORDINATES: Array<[number, number]> = [
   [-5.5266, -1.9462], // Sol 1 - Eagle Crater
   [-5.5240, -1.9470],
@@ -173,9 +190,9 @@ export const OPPORTUNITY_ROUTE_COORDINATES: Array<[number, number]> = [
   [-5.3650, -2.1620],
   [-5.3200, -2.1800], // Sol 2680 - Endeavour Crater Cape York
   [-5.2950, -2.1950],
-  [-5.2700, -2.2150], // Sol 3800 - Cape Tribulation & Marathon Valley
+  [-5.2700, -2.2150], // Sol 3968 - Cape Tribulation & Marathon Valley
   [-5.2450, -2.2290],
-  [-5.2200, -2.2400]  // Sol 5111 - Perseverance Valley (Final Rest)
+  [-5.2200, -2.2400]  // Sol 5111 - Perseverance Valley (approximate)
 ];
 
 // Source links reused across chapters and the Last Signal panel (all NASA/JPL unless labeled).
@@ -202,8 +219,8 @@ export const OPPORTUNITY_CHAPTERS: MissionChapter[] = [
   {
     id: 'act-1',
     title: 'ACT I: The Hole-in-One at Meridiani',
-    solRange: 'Sol 1 – 90',
-    dateRange: 'January – April 2004',
+    solRange: 'Sol 1 to 90',
+    dateRange: 'January to April 2004',
     subtitle: 'A ninety-sol warranty and rocks soaked in water',
     narrativeText: [
       'On Mars, a day is called a sol. Opportunity was built to last ninety of them, and to drive about a kilometer.',
@@ -220,8 +237,8 @@ export const OPPORTUNITY_CHAPTERS: MissionChapter[] = [
   {
     id: 'act-2',
     title: 'ACT II: The Great Marathon',
-    solRange: 'Sol 91 – 5,083',
-    dateRange: 'April 2004 – May 2018',
+    solRange: 'Sol 91 to 5,083',
+    dateRange: 'April 2004 to May 2018',
     subtitle: 'Past the warranty, and the long road to Endeavour',
     narrativeText: [
       'On sol 180, the rover caught its own shadow: twice its promised life. Then the trouble came. In 2005 a front wheel lost its steering, a stuck heater threatened its power, and a sand ripple held the rover for six weeks. In 2007 a dust storm cut its power to 128 watt-hours. Each time, the team on Earth found a way, and Opportunity rolled on.',
@@ -238,8 +255,8 @@ export const OPPORTUNITY_CHAPTERS: MissionChapter[] = [
   {
     id: 'act-3',
     title: 'ACT III: The Last Signal',
-    solRange: 'Sol 5,084 – 5,111',
-    dateRange: 'May 13 – June 10, 2018',
+    solRange: 'Sol 5,084 to 5,111',
+    dateRange: 'May 13 to June 10, 2018',
     subtitle: 'The dark sky over Perseverance Valley and the data that stopped',
     narrativeText: [
       'On May 30, 2018, an orbiter spotted a dust storm. By June 8 it covered more than 7 million square miles, and by June 12, 14 million, a quarter of the planet. Atmospheric opacity, called tau, normally sits near 0.5 at Opportunity\'s site. On June 10 it was about 10.8 (one NASA graphic prints 10.5). The rover had 21 watt-hours of power, the lowest measured on Opportunity at that time (some press accounts say 22).',
@@ -260,18 +277,28 @@ export const OPPORTUNITY_CHAPTERS: MissionChapter[] = [
 
 export const OPPORTUNITY_LAST_SIGNAL: LastSignalMetadata = {
   atmosphericTauValue: 10.8,
+  tauNote: 'About 10.8 per JPL; one NASA graphic prints 10.5',
   atmosphericTauNominal: 0.5,
   atmosphericTauNote: 'About 10.8 per JPL; one NASA graphic prints 10.5.',
   powerWattHours: 21,
+  powerValueWh: 21,
   powerNote: 'NASA graphic: 21 Wh. Some press accounts say 22.',
+  powerWhNote: 'NASA graphic: 21 Wh. Some press accounts say 22.',
   powerStatusLabel: '21 Wh on June 10',
   powerStatusDetail: 'Power had dropped significantly by June 6, forcing minimal operations. On June 10 the rover had 21 watt-hours, the lowest measured on Opportunity at that time.',
   teamAssumption: 'Team assumption (June 12): engineers assumed the batteries had dipped below 24 volts and the rover was in low-power fault, with everything off except a mission clock. This was an inference after the silence, not a received message.',
+  batteryAssumptionNote: 'Team assumption: By June 12, 2018, battery voltage likely fell below 24 V, causing the rover to enter low-power sleep mode.',
   temperatureLabel: 'About −29 °C',
   temperatureNote: 'Rover temperature in the June 10 transmission (about −20 °F).',
+  temperatureEstimate: 'about −29 °C',
   acquisitionTimes: 'Jun 10, 2018 (sol 5,111): about 9:30 and 9:33 a.m. PDT',
   mroRelayTime: 'Relayed by Mars Reconnaissance Orbiter around 9:45 a.m. PDT',
   earthReceiptTime: 'Received on Earth around 10:05 a.m. PDT',
+  acquisitionTimeMars: '2018-06-10 ~09:30 & ~09:33 PDT (Pancam exposures on Mars)',
+  relayTimeMro: '2018-06-10 ~09:45 PDT (Relayed via Mars Reconnaissance Orbiter)',
+  carrierLossTimeEarth: '2018-06-10 ~10:05 PDT (~17:05 UTC) (Received on Earth)',
+  dsnStation: 'Mars Reconnaissance Orbiter relay to Deep Space Network',
+  frequencyBand: 'UHF Orbiter Relay to X-Band Ground Downlink',
   finalFullFrame: {
     id: 'PIA22929',
     title: "Opportunity's Last Message",
@@ -279,6 +306,8 @@ export const OPPORTUNITY_LAST_SIGNAL: LastSignalMetadata = {
     status: 'Partial frame: transmission stopped before the image finished',
     description: 'A noisy, partial dark-sky frame: the last data Opportunity sent. Taken about 9:30 a.m. PDT and relayed by MRO around 9:45 a.m. PDT. The transmission stopped before the image finished.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA22929.jpg',
+    imageCredit: 'NASA / JPL-Caltech',
+    sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA22929',
     provenance: 'NASA_PHOTOJOURNAL_PIA'
   },
   subsequentThumbnails: {
@@ -288,6 +317,8 @@ export const OPPORTUNITY_LAST_SIGNAL: LastSignalMetadata = {
     status: 'Two thumbnails received',
     description: 'Two thumbnails with a faint dot of Sun, taken about 9:33 a.m. PDT and used to estimate a tau of about 10.8. The full-frame versions were never transmitted.',
     imageUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA22930.jpg',
+    imageCredit: 'NASA / JPL-Caltech',
+    sourceUrl: 'https://photojournal.jpl.nasa.gov/catalog/PIA22930',
     provenance: 'NASA_PHOTOJOURNAL_PIA'
   },
   verifiedEventLog: [
@@ -396,5 +427,373 @@ export const OPPORTUNITY_LAST_SIGNAL: LastSignalMetadata = {
       sources: [SRC.missionPage, SRC.endRelease]
     }
   ],
-  lastCommandsNote: 'On February 12, 2019, the last recovery commands went out through the 70-meter Goldstone antenna, ending an eight-month effort of more than 1,000 commands. NASA declared the mission complete on February 13, 2019, with total odometry of 28.06 miles (45.16 km). Press accounts differ on whether Billie Holiday\'s "I\'ll Be Seeing You" was played in the control room or uplinked; NASA\'s release does not mention it.'
+  lastCommandsNote: 'On February 12, 2019, the last recovery commands went out through the 70-meter Goldstone antenna, ending an eight-month effort of more than 1,000 commands. NASA declared the mission complete on February 13, 2019, with total odometry of 28.06 miles (45.16 km). Press accounts differ on whether Billie Holiday\'s "I\'ll Be Seeing You" was played in the control room or uplinked; NASA\'s release does not mention it.',
+  telemetryStream: [
+    { timestampUtc: '2018-06-10T16:30:00Z', source: 'PANCAM_MARS', message: 'Left Pancam solar filter exposure initiated (~09:30 PDT). Frame buffer loaded.', level: 'INFO' },
+    { timestampUtc: '2018-06-10T16:33:00Z', source: 'PANCAM_MARS', message: 'Stereo tau thumbnail exposures completed (~09:33 PDT). Sun disk obscured.', level: 'INFO' },
+    { timestampUtc: '2018-06-10T16:45:00Z', source: 'MRO_UHF_PASS', message: 'Orbiter relay pass initiated (~09:45 PDT). Packet transfer to MRO memory buffer.', level: 'INFO' },
+    { timestampUtc: '2018-06-10T17:05:00Z', source: 'DSN_GROUND', message: 'Downlink received on Earth (~10:05 PDT / 17:05 UTC). PIA22929 truncated at line 340.', level: 'WARN' },
+    { timestampUtc: '2018-06-10T17:05:30Z', source: 'TELEMETRY_LOG', message: 'Solar array output: ~21 Wh (press accounts cite 22 Wh). Tau: 10.8. Temp: about -29 °C.', level: 'CRIT' },
+    { timestampUtc: '2018-06-12T00:00:00Z', source: 'MISSION_TEAM', message: 'Team assumption: Batteries below 24 V threshold. Autonomous sleep entered.', level: 'WARN' }
+  ],
+  poeticMythClarification: {
+    popularLegend: '"My battery is low and it\'s getting dark."',
+    verifiedFact: 'Opportunity never spoke or transmitted words in English. The rover downlinked binary engineering packets indicating atmospheric opacity at 10.8, power at about 21 Wh, temperature near -29 °C, and an incomplete image. The poetic phrase was composed on Twitter by journalist Jacob Margolis (@JacobMargolis) on June 13, 2018, summarizing what mission scientists told him.',
+    originAuthor: 'Jacob Margolis (Science Journalist, KPCC / LAist)'
+  },
+  mythsVsFacts: [
+    {
+      id: 'myth-oppy',
+      subject: 'Opportunity Sol 5111 Transmission',
+      myth: 'The rover transmitted the spoken words: "My battery is low and it\'s getting dark."',
+      fact: 'Telemetry packets only: Binary telemetry recorded high atmospheric opacity (tau 10.8), power near 21 Wh, temperature about -29 °C, and an incomplete Pancam frame. The sentence was written by journalist Jacob Margolis on Twitter summarizing conversations with team members.'
+    },
+    {
+      id: 'myth-spirit',
+      subject: 'Spirit Wheel Failure at Gusev',
+      myth: 'The right front wheel failure was an unmitigated disaster that ended scientific discovery.',
+      fact: 'Dragging the jammed right front wheel acted as a trenching tool, scraping open the soil to reveal 90% pure silica. This proved the existence of ancient hydrothermal hot springs, one of the mission greatest discoveries.'
+    },
+    {
+      id: 'myth-insight',
+      subject: 'InSight Final Farewell Message',
+      myth: 'InSight took a farewell selfie and composed its own emotional goodbye message on Mars.',
+      fact: 'The final camera frame was captured on Sol 1438 (Dec 11, 2022). The farewell message was written on Earth by the JPL Social Media and Outreach team to convey the lander engineering condition to the public.'
+    },
+    {
+      id: 'myth-surveyor',
+      subject: 'Surveyor 3 Microbes on the Moon',
+      myth: 'Streptococcus mitis bacteria survived 2.5 years on the Moon, proving interplanetary panspermia.',
+      fact: 'A 2011 NASA planetary protection review found that clean-room handling and swab protocols during the 1969 Apollo 12 examination were unmasked and lacked sterile controls. Contamination in the laboratory after return was the probable source.'
+    }
+  ]
 };
+
+// Celestial Bodies in the Archive
+export const CELESTIAL_BODIES = [
+  {
+    id: 'Mars',
+    name: 'Mars',
+    designation: 'Sol IV',
+    type: 'Terrestrial Planet',
+    radiusKm: 3390,
+    atmosphere: 'Carbon Dioxide (95.3%), 6.1 mbar',
+    surfaceTemp: '-63 °C average (-140 °C to +20 °C)',
+    gravity: '3.72 m/s² (0.38 g)',
+    datumName: 'IAU 2000 Mars Planetocentric',
+    accentColor: '#f97316',
+    secondaryColor: '#dc2626',
+    description: 'The rust-colored desert world of deep canyons and ancient lakebeds, host to humanity\'s longest roving surface missions.'
+  },
+  {
+    id: 'Moon',
+    name: 'The Moon',
+    designation: 'Earth I',
+    type: 'Natural Satellite',
+    radiusKm: 1737,
+    atmosphere: 'Surface Boundary Exosphere (< 10⁻¹⁰ Pa)',
+    surfaceTemp: '-130 °C night to +120 °C day',
+    gravity: '1.62 m/s² (0.166 g)',
+    datumName: 'Lunar Mean Earth Frame',
+    accentColor: '#38bdf8',
+    secondaryColor: '#94a3b8',
+    description: 'Earth\'s companion world of basaltic plains and pulverised regolith, the only extraterrestrial body walked upon by humans.'
+  },
+  {
+    id: 'Venus',
+    name: 'Venus',
+    designation: 'Sol II',
+    type: 'Terrestrial Planet',
+    radiusKm: 6052,
+    atmosphere: 'Carbon Dioxide (96.5%), 92 bar crushing pressure',
+    surfaceTemp: '+465 °C lead-melting furnace',
+    gravity: '8.87 m/s² (0.90 g)',
+    datumName: 'IAU Venus Planetocentric',
+    accentColor: '#eab308',
+    secondaryColor: '#ca8a04',
+    description: 'A scorching greenhouse cauldron cloaked in sulfuric acid clouds, where armored titanium probes operated for mere hours.'
+  },
+  {
+    id: 'Titan',
+    name: 'Titan',
+    designation: 'Saturn VI',
+    type: 'Atmospheric Ocean Moon',
+    radiusKm: 2575,
+    atmosphere: 'Nitrogen (95%), Methane (5%), 1.5 bar surface pressure',
+    surfaceTemp: '-179 °C cryogenic surface',
+    gravity: '1.35 m/s² (0.138 g)',
+    datumName: 'IAU Titan Planetocentric Frame',
+    accentColor: '#fb923c',
+    secondaryColor: '#d97706',
+    description: 'Saturn\'s massive moon featuring thick orange photochemical smog, liquid methane river channels, and ice bedrock.'
+  }
+];
+
+// Planetary rovers data for 2D Planet Views
+export const PLANETARY_ROVERS: PlanetaryExplorerRover[] = [
+  {
+    id: 'opportunity',
+    name: 'Opportunity',
+    designation: 'MER-B',
+    body: 'Mars',
+    coordinates: {
+      lat: -2.2400,
+      lon: 354.7800,
+      displayCoords: '2.2400° S, 354.7800° E (approximate, reconstructed)'
+    },
+    siteName: 'Perseverance Valley, Endeavour Crater',
+    isApproximate: true,
+    statusText: 'Mission Concluded (Feb 13, 2019)',
+    shortSnippet: 'Drove 45.161 kilometers over 5,111 sols across Meridiani Planum, uncovering blueberries, gypsum, and smectite clays.',
+    handwrittenStory: [
+      'Opportunity touched down on January 24, 2004 Pacific time, rolling directly into Eagle Crater. The primary warranty was ninety sols, but the machine kept rolling across the red plain for over fifteen Earth years.',
+      'Along the way, it spent five weeks stuck in Purgatory Dune, drove along the jagged cliffs of Victoria Crater, and climbed the rim of Endeavour Crater. At Cape York, it scraped open Homestake, proving that neutral-pH water once flowed here.',
+      'On March 24, 2015, Opportunity reached 42.195 kilometers, completing the first marathon on another world.',
+      'In June 2018, a planet-encircling dust storm blotted out the Sun. Opportunity sent its final measurements on June 10, 2018, before falling silent in Perseverance Valley.'
+    ],
+    metrics: {
+      sols: '5,111 Sols',
+      distance: '45.161 km',
+      lifespan: '14 years, 138 days',
+      dates: 'Jan 24, 2004 PST to June 10, 2018',
+      keyDiscovery: 'Hematite spherules and Homestake gypsum vein'
+    },
+    provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR',
+    sourceUrl: 'https://an.rsl.wustl.edu/mer/merb/'
+  },
+  {
+    id: 'spirit',
+    name: 'Spirit',
+    designation: 'MER-A',
+    body: 'Mars',
+    coordinates: {
+      lat: -14.6016,
+      lon: 175.5250,
+      displayCoords: '14.6016° S, 175.5250° E'
+    },
+    siteName: 'Columbia Memorial Station to "Troy", Gusev Crater',
+    isApproximate: false,
+    statusText: 'Mission Concluded (May 25, 2011)',
+    shortSnippet: 'Traversed 7.73 kilometers across Gusev Crater, uncovering 90% pure hydrothermal silica with its jammed wheel.',
+    handwrittenStory: [
+      'Spirit landed on January 4, 2004 in Gusev Crater, looking for ancient lakebed sediments. Instead of mudstones, it found volcanic basalt, prompting a three-kilometer trek toward the Columbia Hills.',
+      'In March 2006, the right front wheel locked permanently. Drivers were forced to drag the disabled wheel behind the rover as it drove in reverse.',
+      'That dragging wheel carved open a trench near Home Plate, churning up dazzling white soil composed of 90 percent pure silica. On Earth, such silica forms around hydrothermal fumaroles and volcanic hot springs, showing Gusev once had warm water ideal for microbial chemistry.',
+      'In May 2009, Spirit broke through a crust into powdery iron sulfate sand at Troy. As winter arrived with the solar panels tilted away from the Sun, Spirit entered deep hibernation on March 22, 2010 and never woke up.'
+    ],
+    metrics: {
+      sols: '2,210 Sols',
+      distance: '7.73 km',
+      lifespan: '6 years, 77 days',
+      dates: 'Jan 4, 2004 to March 22, 2010',
+      keyDiscovery: 'Hydrothermal volcanic silica beds at Home Plate'
+    },
+    provenance: 'AUTHENTIC_TELEMETRY_JPL_RMC',
+    sourceUrl: 'https://an.rsl.wustl.edu/mer/mera/'
+  },
+  {
+    id: 'insight',
+    name: 'InSight Lander',
+    designation: 'SEIS / APSS Lander',
+    body: 'Mars',
+    coordinates: {
+      lat: 4.5024,
+      lon: 135.6234,
+      displayCoords: '4.5024° N, 135.6234° E'
+    },
+    siteName: 'Elysium Planitia',
+    isApproximate: false,
+    statusText: 'Mission Concluded (Dec 21, 2022)',
+    shortSnippet: 'Stationary geophysical observatory that recorded 1,318 marsquakes and mapped the core, mantle, and crust of Mars.',
+    handwrittenStory: [
+      'InSight set down on the flat plains of Elysium Planitia on November 26, 2018. Unlike the rovers, it stayed in one place, placing a sensitive seismometer directly onto the ground under a protective dome.',
+      'Over four years, InSight detected 1,318 marsquakes, including a magnitude 4.7 event on May 4, 2022 that reverberated through the crust for ten hours. The seismic waves mapped a large, liquid metallic core with light elements and measured crustal thickness between 20 and 39 kilometers.',
+      'On December 1, 2018, its sensors recorded the micro-vibrations of Martian wind whistling across the solar arrays, giving science its first physical recording of Martian wind.',
+      'As dust steadily blanketed the solar panels, power dropped below 285 watt-hours. InSight sent its final data on December 15, 2022.'
+    ],
+    metrics: {
+      sols: '1,445 Sols',
+      distance: '0.00 km (Stationary)',
+      lifespan: '4 years, 25 days',
+      dates: 'Nov 26, 2018 to Dec 15, 2022',
+      keyDiscovery: '1,318 marsquakes and Martian internal structure'
+    },
+    provenance: 'SONIFIED_SENSOR_DATA',
+    sourceUrl: 'https://an.rsl.wustl.edu/insight/'
+  },
+  {
+    id: 'viking1',
+    name: 'Viking 1 Lander',
+    designation: 'Project Viking',
+    body: 'Mars',
+    coordinates: {
+      lat: 22.4800,
+      lon: 312.0500,
+      displayCoords: '22.4800° N, 47.9500° W (Chryse Planitia)'
+    },
+    siteName: 'Thomas Mutch Memorial Station, Chryse Planitia',
+    isApproximate: false,
+    statusText: 'Mission Concluded (Nov 13, 1982)',
+    shortSnippet: 'Humanity\'s first successful long-duration Mars lander, operating for 2,245 sols and returning 50,000 surface images.',
+    handwrittenStory: [
+      'On July 20, 1976, Viking 1 settled on the reddish plain of Chryse Planitia, becoming the first long-duration robotic outpost on Mars. When the first panoramic picture scanned line by line onto Earth monitors, it revealed fields of wind-swept rocks beneath a pink sky.',
+      'Its meteorology station documented weather daily for six Earth years, recording temperature drops and dust storms, while automated scoop arms gathered soil for onboard biological and chemical laboratories.',
+      'Viking 1 operated until November 13, 1982, when a ground uplink command accidentally overwrote battery management software, ending communications after 2,245 martian sols.'
+    ],
+    metrics: {
+      sols: '2,245 Sols',
+      distance: '0.00 km (Stationary)',
+      lifespan: '6 years, 116 days',
+      dates: 'July 20, 1976 to Nov 13, 1982',
+      keyDiscovery: 'First long-duration Martian meteorology and surface images'
+    },
+    provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR',
+    sourceUrl: 'https://pds-geosciences.wustl.edu/missions/viking/'
+  },
+  {
+    id: 'surveyor3',
+    name: 'Surveyor 3',
+    designation: 'Surveyor Program Soft Lander',
+    body: 'Moon',
+    coordinates: {
+      lat: -3.0150,
+      lon: -23.4180,
+      displayCoords: '3.0150° S, 23.4180° W (Oceanus Procellarum)'
+    },
+    siteName: 'Surveyor Crater, Oceanus Procellarum',
+    isApproximate: false,
+    statusText: 'Mission Concluded / Visited by Apollo 12 (Nov 1969)',
+    shortSnippet: 'Landed in Oceanus Procellarum in April 1967; visited and partially retrieved 31 months later by Apollo 12 astronauts.',
+    handwrittenStory: [
+      'Surveyor 3 touched down on the Moon on April 20, 1967, bouncing twice on the 12-degree wall of a 200-meter crater before settling into the regolith.',
+      'Equipped with an electric surface sampler scoop, it dug four trenches up to 18 centimeters deep, measuring soil bearing strength and demonstrating that the Apollo Lunar Module would not sink into the dust.',
+      'After returning 6,315 television frames, Surveyor 3 froze during the lunar night on May 4, 1967.',
+      'Thirty-one months later, on November 19, 1969, Apollo 12 astronauts Pete Conrad and Alan Bean landed Lunar Module Intrepid just 180 meters away. They walked to Surveyor 3, examined the browned paint and dust deposits, and clipped off the camera assembly and scoop to bring back to Earth.'
+    ],
+    metrics: {
+      sols: '1 Lunar Day (14 Earth days)',
+      distance: '0.00 km (Stationary)',
+      lifespan: '14 Earth days active',
+      dates: 'April 20, 1967 to May 4, 1967',
+      keyDiscovery: 'Lunar soil bearing mechanics; Apollo 12 hardware retrieval'
+    },
+    provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR',
+    sourceUrl: 'https://pds-geosciences.wustl.edu/missions/surveyor/'
+  },
+  {
+    id: 'lunokhod1',
+    name: 'Lunokhod 1',
+    designation: 'Luna 17 Mobile Rover',
+    body: 'Moon',
+    coordinates: {
+      lat: 38.3330,
+      lon: -35.0117,
+      displayCoords: '38.3330° N, 35.0117° W (Mare Imbrium)'
+    },
+    siteName: 'Mare Imbrium (Sea of Rains)',
+    isApproximate: false,
+    statusText: 'Mission Concluded (Oct 4, 1971)',
+    shortSnippet: 'Humanity\'s first robotic wheeled rover on another celestial world, traversing 10.5 kilometers across Mare Imbrium.',
+    handwrittenStory: [
+      'On November 17, 1970, the Soviet Luna 17 lander deposited Lunokhod 1 onto the basalt plains of Mare Imbrium. It was the first wheeled machine ever to drive upon another world.',
+      'Driven remotely by a five-man crew on Earth using television monitors and joysticks, the tub-shaped rover navigated crater fields, closed its solar lid during two-week lunar nights, and kept warm with an isotopic polonium heater.',
+      'Lunokhod 1 drove 10.54 kilometers, performed 500 soil penetrometry tests, and transmitted over twenty thousand television pictures. When its thermal source finally depleted on October 4, 1971, it went permanently cold in the Sea of Rains.'
+    ],
+    metrics: {
+      sols: '11 Lunar Days (322 Earth days)',
+      distance: '10.54 km',
+      lifespan: '10 months, 17 days',
+      dates: 'Nov 17, 1970 to Oct 4, 1971',
+      keyDiscovery: 'First roving vehicle on another planetary body'
+    },
+    provenance: 'HISTORICAL_RECONSTRUCTION',
+    sourceUrl: 'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1970-095A'
+  },
+  {
+    id: 'venera13',
+    name: 'Venera 13',
+    designation: 'Venera 4V-1M',
+    body: 'Venus',
+    coordinates: {
+      lat: -7.5000,
+      lon: 303.5000,
+      displayCoords: '7.5000° S, 303.5000° E (Phoebe Regio)'
+    },
+    siteName: 'Phoebe Regio',
+    isApproximate: false,
+    statusText: 'Mission Concluded (March 1, 1982)',
+    shortSnippet: 'Survived 127 minutes in 457 °C and 89 atmospheres of crushing pressure, transmitting the first color panoramas of Venus.',
+    handwrittenStory: [
+      'On March 1, 1982, the Soviet Venera 13 lander pierced the dense, opaque sulfuric acid clouds of Venus, touching down on an orange plain in Phoebe Regio.',
+      'Surface conditions were hostile beyond terrestrial imagination: an ambient temperature of 457 degrees Celsius and pressure 89 times greater than Earth at sea level, sufficient to melt lead and crush submarines.',
+      'Equipped with an insulated titanium pressure sphere and circulating coolant, Venera 13 was designed to survive 32 minutes. It endured for 127 minutes, drilling into alkaline basalt, analyzing soil composition with an onboard X-ray fluorescence spectrometer, and transmitting the first 360-degree color panoramas of the Venusian surface before heat finally silenced its transmitter.'
+    ],
+    metrics: {
+      sols: '127 Minutes Operational',
+      distance: '0.00 km (Stationary)',
+      lifespan: '2 hours, 7 minutes',
+      dates: 'March 1, 1982 (03:57 to 06:04 UTC)',
+      keyDiscovery: 'First color photographs of Venus and alkaline basalt analysis'
+    },
+    provenance: 'HISTORICAL_RECONSTRUCTION',
+    sourceUrl: 'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1981-106D'
+  },
+  {
+    id: 'venera9',
+    name: 'Venera 9',
+    designation: 'Venera 4V-1',
+    body: 'Venus',
+    coordinates: {
+      lat: 31.0100,
+      lon: 291.6400,
+      displayCoords: '31.0100° N, 291.6400° E (Beta Regio)'
+    },
+    siteName: 'Beta Regio Slope',
+    isApproximate: false,
+    statusText: 'Mission Concluded (Oct 22, 1975)',
+    shortSnippet: 'Captured humanity\'s first photograph from the surface of another planet, surviving 53 minutes at 455 °C.',
+    handwrittenStory: [
+      'On October 22, 1975, Venera 9 made history by returning the first photographs ever taken from the surface of another planet.',
+      'Resting on a 20-degree rocky slope in Beta Regio, its telephotometer scanned an alien landscape of sharp, un-eroded rock slabs scattered across volcanic gravel under an eerie dim amber illumination.',
+      'The lander functioned for 53 minutes at a temperature of 455 degrees Celsius and 85 atmospheres of pressure, confirming that the atmosphere had cleared sufficiently near the ground to cast shadows, before internal electronics succumbed to the furnace.'
+    ],
+    metrics: {
+      sols: '53 Minutes Operational',
+      distance: '0.00 km (Stationary)',
+      lifespan: '53 minutes',
+      dates: 'October 22, 1975',
+      keyDiscovery: 'First surface photograph of another planet in human history'
+    },
+    provenance: 'HISTORICAL_RECONSTRUCTION',
+    sourceUrl: 'https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1975-050D'
+  },
+  {
+    id: 'huygens',
+    name: 'Huygens Probe',
+    designation: 'Cassini-Huygens Mission',
+    body: 'Titan',
+    coordinates: {
+      lat: -10.2000,
+      lon: -192.4000,
+      displayCoords: '10.2000° S, 192.4000° W (Shangri-La Plain)'
+    },
+    siteName: 'Adiri Border, Shangri-La Plain',
+    isApproximate: false,
+    statusText: 'Mission Concluded (Jan 14, 2005)',
+    shortSnippet: 'The farthest surface landing in human history, touching down 1.4 billion kilometers from Earth at minus 179 °C.',
+    handwrittenStory: [
+      'On January 14, 2005, the European Space Agency Huygens probe separated from Cassini and descended through the dense nitrogen smog of Saturn\'s giant moon Titan.',
+      'Drifting for two and a half hours under parachutes, its cameras recorded intricate river networks carved into ice hills by liquid methane rain. It touched down on a wet, spongy sand plain strewn with rounded pebbles of water ice frozen hard as granite.',
+      'Operating at minus 179 degrees Celsius, Huygens transmitted scientific data and surface images for ninety minutes from the surface until its batteries depleted. It rests intact on the frozen methane plain, the most distant landing ever achieved by our species.'
+    ],
+    metrics: {
+      sols: '90 Minutes on Surface',
+      distance: '0.00 km (Stationary)',
+      lifespan: '90 minutes (surface)',
+      dates: 'January 14, 2005',
+      keyDiscovery: 'Liquid methane river drainage systems and water-ice pebbles'
+    },
+    provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR',
+    sourceUrl: 'https://www.esa.int/Science_Exploration/Space_Science/Cassini-Huygens'
+  }
+];

@@ -23,6 +23,12 @@
   background: #ea580c;
 }
 
+/* Accessible focus ring indicators across interactive elements */
+:focus-visible {
+  outline: 2px solid #f59e0b;
+  outline-offset: 2px;
+}
+
 /* Dialog & Top Layer styles conforming to modern-web-guidance */
 dialog:modal {
   overscroll-behavior: contain;

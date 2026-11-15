@@ -1,51 +1,62 @@
-# OFFWORLD — The Forgotten Missions Archive
-> **"Every mission ends. Its discoveries remain."**  
-> *NASA International Space Apps Challenge 2026 Submission*
+# OFFWORLD: The Forgotten Missions Archive
 
-OFFWORLD is an immersive, cinematic planetary exploration archive dedicated to the abandoned mechanical pioneers of the Moon and Mars.
+NASA International Space Apps Challenge 2026 Submission
 
----
-
-## Opportunity (MER-B) Working MVP
-
-This initial release centers on the Mars Exploration Rover **Opportunity** (MER-B) and features:
-
-1. **Interactive Mars Surface Map:**
-   - Powered by OpenLayers with NASA's verified Mars Trek MOLA Color Shaded Relief basemap (`Mars_MGS_MOLA_ClrShade_merge_global_463m`).
-   - Equirectangular projection using IAU 2000 Mars Planetocentric datums.
-   - Real-time cursor coordinates in Martian areographic latitude and longitude.
-
-2. **Verified Landing & Final Resting Beacons:**
-   - **Touchdown (Sol 1):** Challenger Memorial Station in Eagle Crater (`-1.9462° S, 354.4734° E`).
-   - **Final Rest (Sol 5111):** Perseverance Valley on the rim of Endeavour Crater (`-2.2400° S, 354.7800° E`).
-
-3. **Reconstructed 45.161-km Traverse:**
-   - Complete vector trajectory tracing the 15-year drive from Eagle Crater to Perseverance Valley.
-   - 8 interactive waypoints featuring authentic PDS photographs, odometry counters, elevations, and scientific discoveries.
-
-4. **Documentary Narrative Engine:**
-   - Three-act chronicle (*"The Hole-in-One at Meridiani"*, *"The Great Marathon"*, and *"The Last Signal"*).
-   - One-click camera navigation to landmarks along the route.
-
-5. **"The Last Signal" Experience (Sol 5111):**
-   - Record atmospheric opacity gauge ($\tau > 10.8$).
-   - Qualitative power status (*Critical Power Collapse / Low-Power Fault Mode*).
-   - Side-by-side comparison of the final interrupted full-frame image (`PIA22929`) vs. subsequent thumbnails (`PIA22930`).
-   - Reconciled sequential timestamps (Mars camera acquisition vs. Earth DSN carrier loss).
-   - Historical fact-check debunking the viral Margolis quote vs. binary engineering telemetry.
-   - Verified Event Log with primary NASA source citations from Sol 5111 through the 8-month DSN recovery attempts and final mission conclusion.
-
-6. **Web Audio Atmospheric Uplink:**
-   - Procedural Web Audio API synthesizer generating authentic Martian wind and sub-bass carrier hum (100% royalty-free and copyright compliant).
-
-7. **Data Provenance & Scientific Distinctions:**
-   - Distinct provenance badges on all media cards.
-   - Exclusion of unverified specific watt-hour and voltage numbers, showing qualitative engineering status only.
-   - Comprehensive source register drawer linking directly to NASA PDS, USGS, and Photojournal.
+OFFWORLD is an immersive planetary exploration chronicle dedicated to humanity's longest-operating extraterrestrial surface missions. Built on verified NASA and ESA telemetry and calibrated planetary cartography, OFFWORLD reconstructs the surface expeditions of robotic explorers across Mars, the Moon, Venus, and Titan.
 
 ---
 
-## Data sources and credits
+## Architecture and Key Capabilities
+
+### 1. 2D Planetary Stage and Rover Catalog
+- Interactive 2D planetary views for Mars, The Moon, Venus, and Titan.
+- Authentic surface cartography, topographic relief, and landing site beacons.
+- Surface locations for Opportunity (Meridiani Planum), Spirit (Gusev Crater), InSight (Elysium Planitia), Viking 1 (Chryse Planitia), Surveyor 3 (Oceanus Procellarum / Apollo 12 site), Lunokhod 1 (Mare Imbrium), Venera 13 & Venera 9 (Venus), and Huygens (Titan).
+- In-page aesthetic mission chronicle popups with handwritten field stories and verified metrics.
+
+### 2. Opportunity (MER-B) Surface Traverse Map
+- Powered by OpenLayers with NASA's verified Mars Trek MOLA Color Shaded Relief basemap (`Mars_MGS_MOLA_ClrShade_merge_global_463m`), capped at native zoom 7 for smooth upscaling.
+- Equirectangular projection using IAU 2000 Mars Planetocentric datums.
+- Real-time cursor coordinates in areographic latitude and longitude.
+- Complete 45.161-kilometer reconstructed vector trajectory from Eagle Crater to Perseverance Valley.
+- Non-overlapping waypoint labels and responsive layout.
+
+### 3. Verified Landing and Resting Coordinates
+- **Touchdown (Sol 1):** Challenger Memorial Station in Eagle Crater (`-1.9462° S, 354.4734° E`, Jan 24, 2004 PST / Jan 25, 2004 05:05 UTC) [Exact, PDS RMC Site 000].
+- **First Marathon (Sol 3968):** Surpassed 42.195 km on March 24, 2015 along the rim of Endeavour Crater.
+- **Final Resting Site (Sol 5111):** Perseverance Valley on the rim of Endeavour Crater (`-2.2400° S, 354.7800° E`) [Approximate, reconstructed].
+
+### 4. Verified NASA Photojournal Imagery
+All photographic assets have been audited against NASA Jet Propulsion Laboratory Photojournal archives:
+- **PIA05474:** Hematite spherules ("blueberries") nestled in outcrop at Eagle Crater (Pancam false color).
+- **PIA06757:** Endurance Crater interior walls and dunes viewed from Karatepe entry point.
+- **PIA07997:** Deep wheel ruts left in Purgatory Dune during the five-week extrication.
+- **PIA08813:** Cape Verde promontory rising above the floor of Victoria Crater.
+- **PIA15032:** The "Homestake" gypsum vein at Cape York (Endeavour Crater rim).
+- **PIA15689:** The Greeley Panorama 360-degree gigapixel view from Cape Tribulation.
+- **PIA22929:** "Opportunity's Last Message", the final incomplete Pancam frame with black interruption bar.
+- **PIA22930:** Subsequent atmospheric tau thumbnails successfully received via orbiter relay.
+
+### 5. Sol 5111 "The Last Signal" Archive
+- Reconciled sequential timeline:
+  - Mars Pancam exposures at ~9:30 and ~9:33 a.m. PDT (June 10, 2018).
+  - Mars Reconnaissance Orbiter (MRO) UHF relay pass at ~9:45 a.m. PDT.
+  - Earth ground station reception at ~10:05 a.m. PDT (~17:05 UTC).
+- Critical power collapse recorded at 21 Wh (press accounts note 22 Wh).
+- Atmospheric opacity (tau) measured at 10.8 (one NASA graphic cites 10.5).
+- Operating temperature near -29 °C.
+- Documented team assumption: by June 12, 2018, battery voltage likely fell below 24 V, triggering low-power sleep mode.
+- NASA Fact-Check Matrix: side-by-side verification debunking popular online myths regarding Opportunity, Spirit, InSight, and Surveyor 3.
+- Clarification that science journalist Jacob Margolis coined the poetic summary on Twitter on June 13, 2018, while Opportunity transmitted raw binary engineering packets.
+
+### 6. Audio Architecture and Compliance
+- Procedural Web Audio API synthesizer producing authentic ambient Martian wind textures and sub-bass carrier drones.
+- 100% royalty-free and copyright compliant. Commercial recordings (including Billie Holiday's master recording of "I'll Be Seeing You") are strictly excluded.
+- Conforms to NASA Regulation 14 CFR Part 1221 (no unauthorized NASA logos or implied endorsements).
+
+---
+
+## Data Sources and Credits
 
 - **NASA Solar System Treks:** Mars Orbiter Laser Altimeter (MOLA) Color Shaded Relief global equirectangular tile service (`Mars_MGS_MOLA_ClrShade_merge_global_463m`), NASA Jet Propulsion Laboratory / Goddard Space Flight Center ([trek.nasa.gov](https://trek.nasa.gov/)).
 - **NASA Planetary Data System (PDS) Analyst's Notebook:** Mars Exploration Rover Opportunity (MER-B) rover motion counter (RMC) archives, sol-by-sol traverse telemetry, and science instrumentation records, Washington University in St. Louis ([an.rsl.wustl.edu/mer/merb/](https://an.rsl.wustl.edu/mer/merb/)).
@@ -54,25 +65,23 @@ This initial release centers on the Mars Exploration Rover **Opportunity** (MER-
 
 ---
 
-## AI tools used
+## AI Tools Used
 
 In full compliance with NASA Space Apps Challenge AI disclosure rules:
-- **Antigravity** (Google DeepMind agentic coding assistant) — Autonomous research synthesis, primary source auditing, code implementation, and build verification.
-- **Claude** (Anthropic) — Pre-hackathon research ideation, narrative structuring, and technical design review.
+- **Antigravity** (Google DeepMind agentic coding assistant): Autonomous research synthesis, primary source auditing, code implementation, and build verification.
+- **Claude** (Anthropic): Pre-hackathon research ideation, narrative structuring, and technical design review.
 
 ---
 
-## Local Development & Execution
+## Local Development and Build Verification
 
 ```bash
 # Install dependencies
 npm install
 
-# Run the local development server
+# Run local development server
 npm run dev
 
-# Build production bundle
+# Run TypeScript and production build verification
 npm run build
 ```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
