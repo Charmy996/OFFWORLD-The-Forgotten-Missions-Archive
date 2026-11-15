@@ -1,5 +1,7 @@
 import { ProvenanceType } from '../types/mission';
 
+export const SHOW_UNVERIFIED_MISSIONS = false;
+
 export interface RoverStoryAct {
   actNumber: 1 | 2 | 3;
   title: string;
@@ -59,9 +61,9 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
       'A machine engineered to survive ninety sols, it drove a marathon across an ancient sea floor, leaving six tire tracks carved into eternity. ' +
       'In the spring of twenty-eighteen, the sky above Endeavour Crater began to thicken. ' +
       'A global dust storm, unprecedented in the history of our observations, blotted out the sun. At midday, the darkness was absolute. ' +
-      'On Sol 5111, Opportunity turned its eyes toward the blacked-out sky. Its solar arrays, buried under dust, dropped to twenty-two watt-hours. ' +
-      'It sent its final packet of engineering telemetry: clock drift, voltage critical, atmospheric opacity off the scale. ' +
-      'Then, silence. For eight months, the Deep Space Network called into the Martian dark. On February 12, 2019, JPL beamed Billie Holiday\'s voice to Perseverance Valley. ' +
+      'On Sol 5111, Opportunity turned its eyes toward the blacked-out sky. Its solar arrays, buried under dust, dropped into a low-power fault condition as power collapsed. ' +
+      'It sent its final packet of engineering telemetry: clock drift, low-power fault condition, atmospheric opacity off the scale. ' +
+      'Then, silence. For eight months, the Deep Space Network called into the Martian dark. On February 12, 2019, the final recovery commands went out via the 70-meter Goldstone antenna, ending the eight-month effort (press accounts reported Billie Holiday\'s "I\'ll Be Seeing You" was transmitted or played, though NASA\'s official release does not mention the song). ' +
       'No answer came. Opportunity remains there today, cold, intact, waiting for the wind to change.',
     acts: [
       {
@@ -74,10 +76,10 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
           'Spectrometers proved these spherules were composed of hematite that precipitated out of neutral-to-acidic liquid water billions of years ago. Opportunity fulfilled its entire mission objective inside its landing crater before the 90-sol warranty even expired.'
         ],
         keyMilestone: 'Discovered gray hematite spherules, proving ancient standing liquid water in Meridiani Planum.',
-        photojournalId: 'PIA05474',
-        photoUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA05474.jpg',
-        photoCaption: 'Hematite blueberries resting inside Eagle Crater bedrock.',
-        imageCredit: 'NASA / JPL-Caltech / Cornell / USGS'
+        photojournalId: 'PIA18885',
+        photoUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA18885.jpg',
+        photoCaption: 'Clues to wet history in texture of Martian rock: hematite blueberries and sulfate matrix at Eagle Crater.',
+        imageCredit: 'NASA / JPL-Caltech'
       },
       {
         actNumber: 2,
@@ -85,14 +87,14 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
         timeframe: 'Sols 91 to 5000 (2004 to 2018)',
         narrative: [
           'Escaping Eagle Crater, Opportunity began a grand trek across the open dunes. In 2005, it bogged down up to its axles in Purgatory Dune. For five weeks, drivers simulated wheel rotations in test sand at JPL, carefully crawling backward millimeter by millimeter to safety.',
-          'The rover scaled the precipitous cliffs of Victoria Crater, peer-inspected deep geological strata, and embarked on a multi-year sprint to the 22-kilometer Endeavour Crater. Along the rim at Cape York, it scraped open Homestake, a pristine white vein of pure calcium sulfate gypsum formed by warm water.',
+          'The rover scaled the precipitous cliffs of Victoria Crater, peer-inspected deep geological strata, and embarked on a multi-year sprint to the 22-kilometer Endeavour Crater. Along the rim at Cape York and Matijevic Hill (PIA16703), it discovered ancient clay minerals formed in water that was not strongly acidic.',
           'On March 24, 2015, on Sol 3968, Opportunity surpassed 42.195 kilometers. It became the first human machine in history to complete an Olympic marathon distance on the surface of another planet.'
         ],
-        keyMilestone: 'Completed the first 42.195 km marathon on another world and uncovered pure gypsum veins at Homestake.',
-        photojournalId: 'PIA19112',
-        photoUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA19112.jpg',
-        photoCaption: 'Opportunity panoramic camera view from the summit of Cape Tribulation looking over Endeavour Crater.',
-        imageCredit: 'NASA / JPL-Caltech / Cornell / ASU'
+        keyMilestone: 'Completed the first 42.195 km marathon on another world and uncovered ancient clay minerals formed in neutral-pH water at Endeavour Crater.',
+        photojournalId: 'PIA19158',
+        photoUrl: 'https://photojournal.jpl.nasa.gov/jpeg/PIA19158.jpg',
+        photoCaption: 'Opportunity\'s Marathon Journey: traverse map and vista overlooking Marathon Valley and Endeavour Crater.',
+        imageCredit: 'NASA / JPL-Caltech'
       },
       {
         actNumber: 3,
@@ -100,8 +102,8 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
         timeframe: 'Sols 5100 to 5111 (June 2018 to Feb 2019)',
         narrative: [
           'In early June 2018, Opportunity was surveying Perseverance Valley on the western rim of Endeavour Crater when a regional dust storm rapidly expanded into a catastrophic planet-encircling event.',
-          'Atmospheric optical depth (tau) soared from normal levels of 0.5 to an unprecedented value greater than 10.8. Sunlight was choked to less than one-tenth of one percent of normal brightness. The rover solar arrays, designed to produce over 600 watt-hours, plunged to an emergency level of 22 watt-hours.',
-          'On Sol 5111, June 10, 2018, Opportunity attempted its final exposures and engineering transmissions before its computer clocked off to save voltage. Over eight hundred recovery commands were beamed over the following months, but the rover heaters were cold. On February 13, 2019, NASA officially announced the completion of the 15-year odyssey.'
+          'Atmospheric optical depth (tau) soared from normal levels of 0.5 to an unprecedented value greater than 10.8. Sunlight was choked to less than one-tenth of one percent of normal brightness. The rover solar arrays plunged into a low-power fault mode as available power collapsed.',
+          'On Sol 5111, June 10, 2018, Opportunity attempted its final exposures and engineering transmissions before its computer clocked off to save power. Over one thousand recovery commands were transmitted over the following months via the Deep Space Network, but the rover heaters were cold. On February 13, 2019, NASA officially announced the completion of the 15-year odyssey.'
         ],
         keyMilestone: 'Final transmission on Sol 5111 before the historic 2018 global dust storm ended communication.',
         photojournalId: 'PIA22929',
@@ -129,7 +131,7 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
         component: 'Solar Array Dust Accumulation',
         status: 'Critical Insolation Drop (Sol 5111)',
         severity: 'critical',
-        description: 'Atmospheric optical depth exceeded tau 10.8 during the June 2018 global storm, dropping insolation below the critical survival threshold of 22 Wh.',
+        description: 'Atmospheric optical depth exceeded tau 10.8 during the June 2018 global storm, dropping insolation and causing a catastrophic power collapse.',
         engineeringWorkaround: 'The rover automatically initiated low-power sleep cycles to preserve battery chemistry, but ambient temperatures dropped below internal operating limits.'
       },
       {
@@ -142,17 +144,17 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
     ],
     mythVsFact: {
       myth: 'Opportunity spoke the English words: "My battery is low and it\'s getting dark."',
-      fact: 'Opportunity transmitted binary engineering telemetry packets via UHF relay to the Mars Reconnaissance Orbiter reporting extreme optical opacity and 22 Wh bus power.',
+      fact: 'Opportunity transmitted binary engineering telemetry packets via UHF relay to the Mars Reconnaissance Orbiter reporting extreme optical opacity and a low-power fault condition.',
       historicalContext: 'Science journalist Jacob Margolis tweeted a poetic distillation of JPL engineers\' explanations of the telemetry numbers. The poetic phrase went viral worldwide as literal rover speech.',
       citation: 'Jacob Margolis (KPCC, Twitter, June 13, 2018); NASA JPL MER Sol 5111 Engineering Log'
     },
     telemetryLogs: [
-      { timestamp: 'Sol 5111 09:30 PDT', subsystem: 'PANCAM', metric: 'Exposure Duration', value: '4.8 s (Clipping)', status: 'WARNING' },
-      { timestamp: 'Sol 5111 09:33 PDT', subsystem: 'EPS (Power)', metric: 'Solar Bus Generation', value: '22 Wh (Nominal 645 Wh)', status: 'CRITICAL' },
-      { timestamp: 'Sol 5111 09:35 PDT', subsystem: 'ATMOS', metric: 'Optical Tau Value', value: '> 10.8 (Extreme Haze)', status: 'CRITICAL' },
-      { timestamp: 'Sol 5111 10:19 PDT', subsystem: 'DSN Goldstone 14', metric: 'X-Band Downlink Carrier', value: 'CARRIER LOST', status: 'CRITICAL' }
+      { timestamp: 'Sol 5111 ~09:30 PDT', subsystem: 'PANCAM', metric: 'Final Full-Frame Exposure (PIA22929)', value: 'Interrupted Partial Frame', status: 'WARNING' },
+      { timestamp: 'Sol 5111 ~09:33 PDT', subsystem: 'PANCAM', metric: 'Tau Thumbnails (PIA22930)', value: 'Sun Spot Acquired', status: 'NOMINAL' },
+      { timestamp: 'Sol 5111 ~09:45 PDT', subsystem: 'MRO UHF', metric: 'Orbiter Relay Pass', value: 'Downlink Relayed to Earth', status: 'NOMINAL' },
+      { timestamp: 'Sol 5111 ~10:05 PDT', subsystem: 'EARTH DSN', metric: 'Ground Station Reception', value: 'Transmission Stopped Mid-Frame', status: 'CRITICAL' }
     ],
-    scientificLegacy: 'Confirmed persistent, acidic-to-neutral groundwater on Mars, discovered hematite blueberries, found calcium sulfate veins, and provided fifteen years of continuous climatological data.',
+    scientificLegacy: 'Confirmed persistent, acidic-to-neutral groundwater on Mars, discovered hematite blueberries, discovered ancient clay minerals formed in neutral water, and provided fifteen years of continuous climatological data.',
     monumentSignificance: 'Permanent technological monument on the western rim of Endeavour Crater in Perseverance Valley.',
     provenance: 'AUTHENTIC_PHOTOGRAPH_PDS_EDR'
   },
@@ -848,7 +850,7 @@ export const ROVER_STORY_CHRONICLES: Record<string, RoverStoryChronicle> = {
         narrative: [
           'Huygens touched down at five meters per second on a flat, damp plain bordering the highland region of Adiri, now known as Shangri-La.',
           'Its landing penetrometer penetrated fifteen centimeters into the surface, recording the mechanical resistance of wet sand or clay beneath a thin crust.',
-          'Cameras beamed back humanity\'s first photograph from the surface of an outer planet moon: rounded cobbles of water ice strewn across orange organic sand.'
+          'Cameras transmitted back humanity\'s first photograph from the surface of an outer planet moon: rounded cobbles of water ice strewn across orange organic sand.'
         ],
         keyMilestone: 'First soft landing on a moon in the outer solar system, 1.4 billion kilometers from Earth.',
         photojournalId: 'PIA07231',

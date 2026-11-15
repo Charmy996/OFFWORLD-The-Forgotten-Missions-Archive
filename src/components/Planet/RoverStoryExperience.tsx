@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PlanetaryExplorerRover } from '../../types/mission';
 import { PLANETARY_ROVERS } from '../../data/opportunityData';
-import { getRoverStoryChronicle, RoverStoryChronicle } from '../../data/roverStoryChronicles';
+import { getRoverStoryChronicle, RoverStoryChronicle, SHOW_UNVERIFIED_MISSIONS } from '../../data/roverStoryChronicles';
 import { ProvenanceBadge } from '../UI/ProvenanceBadge';
 import {
   X,
@@ -75,7 +75,7 @@ export const RoverStoryExperience: React.FC<RoverStoryExperienceProps> = ({
   const [speechProgress, setSpeechProgress] = useState<number>(0);
   const [ambientBedActive, setAmbientBedActive] = useState<boolean>(true);
 
-  // Web Audio Context for authentic radio telemetry beeps & ambient bed
+  // Web Audio Context for browser-synthesized audio (Web Audio, not a NASA recording) & ambient bed
   const audioCtxRef = useRef<AudioContext | null>(null);
   const ambientOscRef = useRef<OscillatorNode | null>(null);
   const ambientGainRef = useRef<GainNode | null>(null);
@@ -376,7 +376,7 @@ export const RoverStoryExperience: React.FC<RoverStoryExperienceProps> = ({
                 className="px-2 py-0.5 rounded text-[10px] font-mono bg-zinc-900 border border-space-border text-amber-300 font-semibold focus:outline-none focus:border-amber-400 cursor-pointer"
                 title="Switch Mission Explorer"
               >
-                {PLANETARY_ROVERS.map((r) => (
+                {PLANETARY_ROVERS.filter((r) => SHOW_UNVERIFIED_MISSIONS || r.id === 'opportunity').map((r) => (
                   <option key={r.id} value={r.id} className="bg-zinc-900 text-white">
                     Explorer: {r.name} ({r.body})
                   </option>
@@ -449,6 +449,7 @@ export const RoverStoryExperience: React.FC<RoverStoryExperienceProps> = ({
                     : 'bg-emerald-950/80 border-emerald-500/50 text-emerald-200 animate-pulse'
                   : `bg-gradient-to-r ${themeStyles.buttonGradient}`
               }`}
+              title="Browser text-to-speech (not a recorded voice)"
             >
               {isNarrating ? (
                 isAudioPaused ? (
@@ -481,31 +482,39 @@ export const RoverStoryExperience: React.FC<RoverStoryExperienceProps> = ({
             )}
 
             {/* Audio Waveform Simulation Bar */}
-            <div className="hidden sm:flex items-center gap-1 h-4 px-2">
-              {[40, 75, 55, 90, 60, 85, 45, 95, 70, 50].map((h, i) => (
-                <span
-                  key={i}
-                  className={`w-0.5 rounded-full transition-all duration-150 ${
-                    isNarrating && !isAudioPaused
-                      ? `${themeStyles.progressFill} animate-pulse`
-                      : 'bg-zinc-700'
-                  }`}
-                  style={{
-                    height: isNarrating && !isAudioPaused ? `${h}%` : '20%',
-                    animationDelay: `${i * 70}ms`
-                  }}
-                />
-              ))}
+            <div 
+              className="hidden sm:flex items-center gap-1.5 h-4 px-2"
+              title="Illustrative visualization: audio synthesized in your browser (Web Audio), not a NASA recording"
+            >
+              <div className="flex items-center gap-1 h-4">
+                {[40, 75, 55, 90, 60, 85, 45, 95, 70, 50].map((h, i) => (
+                  <span
+                    key={i}
+                    className={`w-0.5 rounded-full transition-all duration-150 ${
+                      isNarrating && !isAudioPaused
+                        ? `${themeStyles.progressFill} animate-pulse`
+                        : 'bg-zinc-700'
+                    }`}
+                    style={{
+                      height: isNarrating && !isAudioPaused ? `${h}%` : '20%',
+                      animationDelay: `${i * 70}ms`
+                    }}
+                  />
+                ))}
+              </div>
+              <span className="hidden xl:inline text-[9px] px-1 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">
+                ILLUSTRATIVE VISUALIZATION
+              </span>
             </div>
 
             <span className="text-[11px] font-mono text-zinc-400">
               {isNarrating
                 ? isAudioPaused
-                  ? 'Narration Paused'
-                  : `Speaking... (${speechProgress}%)`
+                  ? 'Narration Paused [browser text-to-speech (not a recorded voice)]'
+                  : `Speaking... (${speechProgress}%) [browser text-to-speech (not a recorded voice)]`
                 : chronicle
-                ? `Voice Chronicle (~${chronicle.narrationDurationSeconds}s)`
-                : 'Web Audio Narration Engine'}
+                ? `Voice Chronicle (~${chronicle.narrationDurationSeconds}s) [browser text-to-speech (not a recorded voice)]`
+                : 'Browser text-to-speech (not a recorded voice)'}
             </span>
           </div>
 
@@ -524,7 +533,7 @@ export const RoverStoryExperience: React.FC<RoverStoryExperienceProps> = ({
                   ? 'bg-zinc-800/80 border-space-border text-zinc-200'
                   : 'bg-transparent border-space-border/50 text-zinc-600'
               }`}
-              title="Toggle ambient background resonance"
+              title="Drone bed synthesized in your browser (Web Audio), not a NASA recording"
             >
               <Radio className="w-3 h-3 text-cyan-400" />
               <span>Drone Bed: {ambientBedActive ? 'ON' : 'OFF'}</span>
@@ -857,13 +866,19 @@ export const RoverStoryExperience: React.FC<RoverStoryExperienceProps> = ({
           {activeTab === 'telemetry' && (
             <div className="space-y-3 animate-in fade-in duration-200">
               <div className="p-3 rounded-xl bg-black/60 border border-space-border text-xs font-mono text-zinc-400 flex items-center justify-between">
-                <span>HISTORICAL DOWNLINK PACKET BURST</span>
+                <div className="flex items-center gap-2">
+                  <span>HISTORICAL DOWNLINK EVENT LOG</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">
+                    ILLUSTRATIVE VISUALIZATION
+                  </span>
+                </div>
                 <button
                   onClick={() => playTelemetryBeep(1320, 'square', 0.12)}
                   className="text-cyan-400 hover:underline flex items-center gap-1"
+                  title="Chirp synthesized in your browser (Web Audio), not a NASA recording"
                 >
                   <Activity className="w-3.5 h-3.5" />
-                  <span>Transmit Ping</span>
+                  <span>Transmit Ping (browser-synthesized chirp)</span>
                 </button>
               </div>
 

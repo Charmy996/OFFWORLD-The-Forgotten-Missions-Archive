@@ -28,38 +28,38 @@ OFFWORLD is an immersive planetary exploration chronicle dedicated to humanity's
 
 ### 4. Verified NASA Photojournal Imagery
 All photographic assets have been audited against NASA Jet Propulsion Laboratory Photojournal archives:
-- **PIA05474:** Hematite spherules ("blueberries") nestled in outcrop at Eagle Crater (Pancam false color).
-- **PIA06757:** Endurance Crater interior walls and dunes viewed from Karatepe entry point.
-- **PIA07997:** Deep wheel ruts left in Purgatory Dune during the five-week extrication.
-- **PIA08813:** Cape Verde promontory rising above the floor of Victoria Crater.
-- **PIA15032:** The "Homestake" gypsum vein at Cape York (Endeavour Crater rim).
-- **PIA15689:** The Greeley Panorama 360-degree gigapixel view from Cape Tribulation.
-- **PIA22929:** "Opportunity's Last Message", the final incomplete Pancam frame with black interruption bar.
+- **PIA18885:** Clues to wet history in texture of Martian rock at Eagle Crater (Pancam and Microscopic Imager).
+- **PIA06739:** Opportunity catches its own shadow on Sol 180 during plains traverse.
+- **PIA09104:** Panorama from "Cape Verde" promontory rising over the floor of Victoria Crater.
+- **PIA16703:** Matijevic Hill panorama at Cape York (Endeavour Crater rim; discovery of ancient smectite clay minerals).
+- **PIA19158:** Opportunity's Marathon Journey: traverse map and vista overlooking Marathon Valley.
+- **PIA22909:** Opportunity's Legacy Pan (True Color) 360-degree panorama in Perseverance Valley.
 - **PIA22930:** Subsequent atmospheric tau thumbnails successfully received via orbiter relay.
+- **PIA22929:** "Opportunity's Last Message", the final incomplete Pancam frame cut off before completion.
 
 ### 5. Sol 5111 "The Last Signal" Archive
 - Reconciled sequential timeline:
   - Mars Pancam exposures at ~9:30 and ~9:33 a.m. PDT (June 10, 2018).
   - Mars Reconnaissance Orbiter (MRO) UHF relay pass at ~9:45 a.m. PDT.
-  - Earth ground station reception at ~10:05 a.m. PDT (~17:05 UTC).
-- Critical power collapse recorded at 21 Wh (press accounts note 22 Wh).
+  - Earth ground station reception at ~10:05 a.m. PDT (transmission stopped before the image finished).
+- Power state: low-power fault mode / catastrophic power collapse as solar insolation was choked by the planet-encircling dust storm.
 - Atmospheric opacity (tau) measured at 10.8 (one NASA graphic cites 10.5).
 - Operating temperature near -29 °C.
-- Documented team assumption: by June 12, 2018, battery voltage likely fell below 24 V, triggering low-power sleep mode.
+- Documented team assumption: by June 12, 2018, battery levels depleted, triggering low-power sleep mode with mission clock.
 - NASA Fact-Check Matrix: side-by-side verification debunking popular online myths regarding Opportunity, Spirit, InSight, and Surveyor 3.
 - Clarification that science journalist Jacob Margolis coined the poetic summary on Twitter on June 13, 2018, while Opportunity transmitted raw binary engineering packets.
 
 ### 6. Interactive Rover Story Chronicles & Narration Audio Engine
-- **3-Act Narrative Structure:** Deep documentary-grade story arcs (Act I: Landing & First Footprints, Act II: The Odyssey & Science, Act III: The Silent Farewell / Monument) covering 15 robotic surface explorers across Mars, Moon, Venus, and Titan.
-- **Documentary Voice Narration:** Integrated Web Speech API narration synthesizer configured with measured cadence (pitch: 0.82, speed: 0.88), real-time word tracking, speech multiplier, and animated sound waveform.
+- **3-Act Narrative Structure:** Deep documentary-grade story arcs (Act I: Landing & First Footprints, Act II: The Odyssey & Science, Act III: The Silent Farewell / Monument) covering robotic surface explorers across Mars, Moon, Venus, and Titan.
+- **Documentary Voice Narration:** Integrated browser text-to-speech (not a recorded voice) configured with measured cadence (pitch: 0.82, speed: 0.88), real-time word tracking, speech multiplier, and animated sound waveform.
 - **Dynamic Thematic Modes:** Live switchable styling themes (`Amber CRT`, `Cyan Telemetry`, `Stealth Dark`, `Archival Gold`) adjusting glowing borders, telemetry scanlines, and buttons.
 - **Hardware Failure Anatomy:** Deep engineering diagnostic dossiers detailing historical component failures and remote recovery workarounds (Spirit's jammed wheel motor, Opportunity's steering actuator jam and flash memory wear-out, Curiosity's punctured aluminum wheels, Venera 13's 89-atm pressure limits).
-- **Acoustic Telemetry Synthesizer:** Real-time Web Audio API frequency generator producing authentic carrier waves, downlink pings, and deep space ambient drone beds.
-- **Mission Switcher & Citation Exporter:** One-click explorer switching across planetary bodies with automated academic citation copying.
+- **Acoustic Telemetry Synthesizer:** Real-time Web Audio API frequency generator. Telemetry chirps and ambient soundbeds are synthesized in your browser (Web Audio), not a NASA recording.
+- **Mission Switcher & Citation Exporter:** Explorer switching with automated academic citation copying.
 
-### 6. Audio Architecture and Compliance
-- Procedural Web Audio API synthesizer producing authentic ambient Martian wind textures and sub-bass carrier drones.
-- 100% royalty-free and copyright compliant. Commercial recordings (including Billie Holiday's master recording of "I'll Be Seeing You") are strictly excluded.
+### 7. Audio Architecture and Compliance
+- Procedural Web Audio API synthesizer: telemetry chirps, Martian wind textures, and carrier drones are synthesized in your browser (Web Audio), not a NASA recording. Spoken narration uses browser text-to-speech (not a recorded voice).
+- 100% royalty-free and copyright compliant. Commercial recordings (including Billie Holiday's master recording of "I'll Be Seeing You") are strictly excluded. Press accounts reported Billie Holiday's song was transmitted or played during final attempts, but NASA's official release does not mention the song; final recovery commands went out Feb 12, 2019 via the 70-meter Goldstone antenna.
 - Conforms to NASA Regulation 14 CFR Part 1221 (no unauthorized NASA logos or implied endorsements).
 
 ---
@@ -68,7 +68,7 @@ All photographic assets have been audited against NASA Jet Propulsion Laboratory
 
 - **NASA Solar System Treks:** Mars Orbiter Laser Altimeter (MOLA) Color Shaded Relief global equirectangular tile service (`Mars_MGS_MOLA_ClrShade_merge_global_463m`), NASA Jet Propulsion Laboratory / Goddard Space Flight Center ([trek.nasa.gov](https://trek.nasa.gov/)).
 - **NASA Planetary Data System (PDS) Analyst's Notebook:** Mars Exploration Rover Opportunity (MER-B) rover motion counter (RMC) archives, sol-by-sol traverse telemetry, and science instrumentation records, Washington University in St. Louis ([an.rsl.wustl.edu/mer/merb/](https://an.rsl.wustl.edu/mer/merb/)).
-- **NASA Jet Propulsion Laboratory Photojournal:** Calibrated imaging products including `PIA05474` (Eagle Crater Blueberries), `PIA06757` (Endurance Crater), `PIA07997` (Purgatory Dune), `PIA08813` (Victoria Crater), `PIA15032` (Homestake Gypsum Vein), `PIA15689` (Greeley Panorama), `PIA22929` (Opportunity's Last Message), and `PIA22930` (Atmospheric Tau Thumbnails) ([photojournal.jpl.nasa.gov](https://photojournal.jpl.nasa.gov/)).
+- **NASA Jet Propulsion Laboratory Photojournal:** Calibrated imaging products including `PIA18885` (Eagle Crater Rock Texture), `PIA06739` (Sol 180 Shadow), `PIA09104` (Victoria Crater Cape Verde), `PIA16703` (Matijevic Hill Clay Minerals), `PIA19158` (Marathon Journey), `PIA22909` (Legacy Panorama), `PIA22930` (Atmospheric Tau Thumbnails), and `PIA22929` (Opportunity's Last Message) ([photojournal.jpl.nasa.gov](https://photojournal.jpl.nasa.gov/)).
 - **14 CFR Part 1221 Compliance Note:** OFFWORLD is an independent educational hackathon submission developed for the NASA International Space Apps Challenge 2026. Pursuant to 14 CFR Part 1221 (*The NASA Seal and Other Devices*), official NASA insignias, seals, and logotypes are not utilized as application branding or to imply agency endorsement.
 
 ---

@@ -11,59 +11,59 @@ export const CitationDrawer: React.FC<CitationDrawerProps> = ({ isOpen, onClose 
 
   const verifiedImages = [
     {
-      id: 'PIA05474',
-      title: 'Hematite Spherules ("Blueberries") at Eagle Crater',
-      instrument: 'Opportunity Pancam False Color',
-      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA05474',
-      credit: 'NASA / JPL / Cornell'
-    },
-    {
-      id: 'PIA06757',
-      title: 'Endurance Crater Interior Walls and Dunes',
-      instrument: 'Opportunity Pancam Karatepe Ingress View',
-      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA06757',
-      credit: 'NASA / JPL / Cornell'
-    },
-    {
-      id: 'PIA07997',
-      title: 'Deep Wheel Tracks in Purgatory Dune',
-      instrument: 'Opportunity Hazcam / Navcam Record',
-      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA07997',
-      credit: 'NASA / JPL'
-    },
-    {
-      id: 'PIA08813',
-      title: 'Cape Verde Promontory at Victoria Crater',
-      instrument: 'Opportunity Pancam Perspective View',
-      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA08813',
-      credit: 'NASA / JPL / Cornell'
-    },
-    {
-      id: 'PIA15032',
-      title: '"Homestake" Gypsum Vein at Cape York (Endeavour Rim)',
-      instrument: 'Opportunity Pancam False Color',
-      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA15032',
-      credit: 'NASA / JPL-Caltech / Cornell / ASU'
-    },
-    {
-      id: 'PIA15689',
-      title: 'The Greeley Panorama from Cape Tribulation',
-      instrument: 'Opportunity Pancam 360-Degree Composite',
-      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA15689',
-      credit: 'NASA / JPL-Caltech / Cornell / ASU'
-    },
-    {
-      id: 'PIA22929',
-      title: '"Opportunity\'s Last Message" (Interrupted Full-Frame)',
-      instrument: 'Opportunity Pancam (Left Eye with Solar Filter)',
-      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA22929',
+      id: 'PIA18885',
+      title: 'Clues to Wet History in Texture of a Martian Rock',
+      instrument: 'Opportunity Microscopic Imager & Pancam',
+      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA18885',
       credit: 'NASA / JPL-Caltech'
+    },
+    {
+      id: 'PIA06739',
+      title: 'Opportunity Catches Its Shadow on Sol 180',
+      instrument: 'Opportunity Pancam',
+      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA06739',
+      credit: 'NASA / JPL-Caltech'
+    },
+    {
+      id: 'PIA09104',
+      title: 'Panorama from "Cape Verde" at Victoria Crater',
+      instrument: 'Opportunity Pancam Perspective View',
+      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA09104',
+      credit: 'NASA / JPL-Caltech / Cornell'
+    },
+    {
+      id: 'PIA16703',
+      title: 'Matijevic Hill Panorama at Endeavour Crater Rim',
+      instrument: 'Opportunity Pancam (Smectite Clay Minerals)',
+      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA16703',
+      credit: 'NASA / JPL-Caltech / Cornell / ASU'
+    },
+    {
+      id: 'PIA19158',
+      title: "Opportunity's Marathon Journey",
+      instrument: 'Opportunity Pancam & Traverse Context',
+      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA19158',
+      credit: 'NASA / JPL-Caltech'
+    },
+    {
+      id: 'PIA22909',
+      title: "Opportunity's Legacy Pan (True Color)",
+      instrument: 'Opportunity Pancam 360-Degree Panorama',
+      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA22909',
+      credit: 'NASA / JPL-Caltech / Cornell / ASU'
     },
     {
       id: 'PIA22930',
       title: 'Subsequent Atmospheric Tau Thumbnails',
       instrument: 'Opportunity Pancam (Stereo Solar Filter Thumbnails)',
       url: 'https://photojournal.jpl.nasa.gov/catalog/PIA22930',
+      credit: 'NASA / JPL-Caltech'
+    },
+    {
+      id: 'PIA22929',
+      title: '"Opportunity\'s Last Message" (Interrupted Full-Frame)',
+      instrument: 'Opportunity Pancam (Left Eye with Solar Filter)',
+      url: 'https://photojournal.jpl.nasa.gov/catalog/PIA22929',
       credit: 'NASA / JPL-Caltech'
     }
   ];
@@ -212,10 +212,10 @@ export const CitationDrawer: React.FC<CitationDrawerProps> = ({ isOpen, onClose 
             </h3>
             <div className="p-3 rounded-lg bg-zinc-900/60 border border-zinc-800 font-sans text-[11px] text-zinc-300 space-y-1.5">
               <p>
-                <strong>Procedural Synthesizer:</strong> Ambient Martian wind and sub-bass carrier drones are generated programmatically in real-time via the Web Audio API.
+                <strong>Synthesized Audio & Narration:</strong> Telemetry chirps and ambient soundbeds are synthesized in your browser (Web Audio), not a NASA recording. Spoken narration uses browser text-to-speech (not a recorded voice).
               </p>
               <p>
-                <strong>Commercial Music Exclusion:</strong> In strict compliance with competition rules, no commercial copyrighted sound recordings are streamed or bundled.
+                <strong>Commercial Music Exclusion:</strong> In strict compliance with competition rules, no commercial copyrighted sound recordings (such as Billie Holiday's master recording of "I'll Be Seeing You") are streamed or bundled. Final recovery commands were uplinked Feb 12, 2019 via the 70-meter Goldstone antenna (press accounts reported the song; NASA's official release does not mention it).
               </p>
             </div>
           </div>
